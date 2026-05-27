@@ -1,0 +1,56 @@
+<view class="container" wx:if="{{goods}}">
+  <swiper class="img-swiper" indicator-dots circular>
+    <swiper-item wx:for="{{goods.images}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="detail-img" bindtap="previewImg" data-url="{{item}}"/>
+    </swiper-item>
+  </swiper>
+
+  <view class="detail-card card">
+    <view class="price-row flex flex-between flex-center">
+      <view>
+        <text class="price-unit">¥</text>
+        <text class="price detail-price">{{goods.price}}</text>
+        <text class="orig-price" wx:if="{{goods.original_price}}">原价 ¥{{goods.original_price}}</text>
+      </view>
+      <text class="view-tag">{{goods.view_count}} 次浏览</text>
+    </view>
+    <text class="detail-title">{{goods.title}}</text>
+    <text class="detail-desc">{{goods.description}}</text>
+    <view class="tag tag-green" wx:if="{{goods.category}}">{{goods.category}}</view>
+  </view>
+
+  <view class="seller-card card">
+    <text class="card-title">卖家信息</text>
+    <view class="flex flex-center" style="gap:16rpx;">
+      <image class="avatar" src="{{goods.avatar}}" mode="aspectFill"/>
+      <view class="flex-1">
+        <text class="seller-name">{{goods.nickname}}</text>
+        <text class="seller-campus">{{goods.campus}}</text>
+      </view>
+    </view>
+    <view class="contact-info" wx:if="{{goods.contact}}">
+      <text class="contact-label">联系方式：</text>
+      <text class="contact-val" selectable>{{goods.contact}}</text>
+    </view>
+  </view>
+
+  <view class="comment-card card">
+    <text class="card-title">留言 ({{goods.comments.length}})</text>
+    <view class="comment-item" wx:for="{{goods.comments}}" wx:key="id">
+      <view class="flex flex-center" style="gap:8rpx;margin-bottom:8rpx;">
+        <image class="avatar-sm" src="{{item.avatar}}" mode="aspectFill"/>
+        <text class="comment-name">{{item.nickname}}</text>
+        <text class="comment-time">{{item.created_at}}</text>
+      </view>
+      <text class="comment-text">{{item.content}}</text>
+    </view>
+    <view class="empty-hint" wx:if="{{goods.comments.length === 0}}">暂无留言</view>
+  </view>
+
+  <view class="bottom-bar safe-bottom">
+    <view class="input-area flex flex-center">
+      <input class="comment-input" placeholder="说点什么..." value="{{commentText}}" bindinput="onCommentInput"/>
+      <view class="send-btn" bindtap="sendComment">发送</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,85 @@
+<view class="profile-page">
+  <!-- 用户信息卡 -->
+  <view class="user-card" wx:if="{{isLogin}}">
+    <view class="user-top flex flex-center">
+      <image class="user-avatar" src="{{userInfo.avatar || defaultAvatar}}" mode="aspectFill"/>
+      <view class="user-meta flex-1">
+        <text class="user-nick">{{userInfo.nickname}}</text>
+        <text class="user-campus">{{userInfo.campus || '未设置校区'}} · {{userInfo.dormitory || '未设置宿舍'}}</text>
+        <view class="credit-bar flex flex-center">
+          <text class="credit-label">信用分</text>
+          <view class="credit-progress">
+            <view class="credit-fill" style="width: {{userInfo.credit_score}}%"></view>
+          </view>
+          <text class="credit-score">{{userInfo.credit_score}}</text>
+        </view>
+      </view>
+      <view class="edit-btn" bindtap="goEditInfo">编辑</view>
+    </view>
+  </view>
+  <view class="login-card" wx:else bindtap="goLogin">
+    <text class="login-tip">点击登录</text>
+    <text class="login-sub">登录后享受更多服务</text>
+  </view>
+
+  <!-- 钱包 -->
+  <view class="wallet-card card" wx:if="{{isLogin}}" bindtap="goWallet">
+    <view class="flex flex-between flex-center">
+      <view>
+        <text class="wallet-label">我的钱包</text>
+        <view class="wallet-balance">
+          <text class="price-unit">¥</text>
+          <text class="wallet-amount">{{userInfo.balance || '0.00'}}</text>
+        </view>
+      </view>
+      <text class="wallet-arrow">▸</text>
+    </view>
+  </view>
+
+  <!-- 任务统计 -->
+  <view class="stats-card card" wx:if="{{isLogin}}">
+    <view class="stats-grid">
+      <view class="stat-item" bindtap="goMyTasks">
+        <text class="stat-num">{{publishCount}}</text>
+        <text class="stat-name">我发布的</text>
+      </view>
+      <view class="stat-item" bindtap="goMyOrders">
+        <text class="stat-num">{{acceptCount}}</text>
+        <text class="stat-name">我接的单</text>
+      </view>
+      <view class="stat-item" bindtap="goMyGoods">
+        <text class="stat-num">{{goodsCount}}</text>
+        <text class="stat-name">我的商品</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-card card">
+    <view class="menu-item" bindtap="goAddress">
+      <image class="icon-sm" src="/images/icons/location.png" mode="aspectFit" style="margin-right:12rpx"/>
+      <text class="menu-text flex-1">收货地址管理</text>
+      <text class="menu-arrow">▸</text>
+    </view>
+    <view class="menu-item" bindtap="goMessages">
+      <image class="icon-sm" src="/images/icons/bell.png" mode="aspectFit" style="margin-right:12rpx"/>
+      <text class="menu-text flex-1">消息通知</text>
+      <view class="msg-badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+      <text class="menu-arrow">▸</text>
+    </view>
+    <view class="menu-item" bindtap="goMerchant" wx:if="{{isLogin}}">
+      <image class="icon-sm" src="/images/icons/market.png" mode="aspectFit" style="margin-right:12rpx"/>
+      <text class="menu-text flex-1">{{userInfo.isMerchant ? '商家管理' : '商家入驻'}}</text>
+      <text class="menu-arrow">▸</text>
+    </view>
+    <view class="menu-item" wx:if="{{userInfo.role === 'admin'}}">
+      <image class="icon-sm" src="/images/icons/key.png" mode="aspectFit" style="margin-right:12rpx"/>
+      <text class="menu-text flex-1">管理员后台</text>
+      <text class="menu-sub">请在浏览器访问</text>
+      <text class="menu-arrow">▸</text>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" wx:if="{{isLogin}}" bindtap="logout">退出登录</view>
+</view>

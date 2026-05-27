@@ -1,0 +1,9 @@
+.filter-bar { display: flex; gap: 12rpx; margin-bottom: 16rpx; flex-wrap: wrap; }
+.filter-item { padding: 10rpx 24rpx; border-radius: 24rpx; font-size: 24rpx; background: #fff; color: #505F79; }
+.filter-item.active { background: #36B37E; color: #fff; }
+.order-no { font-size: 26rpx; font-weight: 600; color: #172B4D; }
+.order-product { font-size: 28rpx; color: #505F79; display: block; }
+.order-amount { font-size: 30rpx; }
+.order-user { font-size: 24rpx; color: #8F92A1; }
+.order-time { font-size: 22rpx; color: #B0B3BE; display: block; margin-top: 4rpx; }
+.action-btn { font-size: 24rpx; color: #36B37E; padding: 8rpx 24rpx; border: 1rpx solid #36B37E; border-radius: 20rpx; }

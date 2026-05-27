@@ -1,0 +1,8 @@
+.shop-card { margin-bottom: 16rpx; }
+.shop-name { font-size: 32rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 8rpx; }
+.shop-meta { display: flex; gap: 16rpx; align-items: center; }
+.shop-category { font-size: 24rpx; color: #8F92A1; background: #F4F5F7; padding: 4rpx 16rpx; border-radius: 16rpx; }
+.shop-rating { font-size: 24rpx; color: #FF9500; font-weight: 600; }
+.rating-wrap { display: flex; align-items: center; gap: 4rpx; }
+.shop-arrow { font-size: 32rpx; color: #B0B3BE; }
+.shop-hours { font-size: 22rpx; color: #505F79; display: block; margin-top: 12rpx; }

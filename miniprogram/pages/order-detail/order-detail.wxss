@@ -1,0 +1,18 @@
+.status-bar { padding: 32rpx; border-radius: 16rpx; margin-bottom: 20rpx; text-align: center; }
+.status-active { background: linear-gradient(135deg, #36B37E, #00875A); }
+.status-done { background: #E3FCEF; }
+.status-cancel { background: #F4F5F7; }
+.status-text { font-size: 32rpx; font-weight: 700; color: #fff; }
+.status-done .status-text { color: #00875A; }
+.status-cancel .status-text { color: #8F92A1; }
+
+.card-title { font-size: 28rpx; font-weight: 700; color: #172B4D; display: block; }
+.prod-img { width: 120rpx; height: 120rpx; border-radius: 12rpx; flex-shrink: 0; }
+.prod-name { font-size: 28rpx; font-weight: 600; color: #172B4D; display: block; margin-bottom: 4rpx; }
+.prod-shop { font-size: 24rpx; color: #8F92A1; display: block; }
+.prod-qty { font-size: 24rpx; color: #8F92A1; }
+
+.info-row { display: flex; justify-content: space-between; padding: 16rpx 0; border-bottom: 1rpx solid #F8F9FB; }
+.info-row:last-child { border-bottom: none; }
+.info-label { font-size: 26rpx; color: #8F92A1; flex-shrink: 0; }
+.info-value { font-size: 26rpx; color: #172B4D; text-align: right; }

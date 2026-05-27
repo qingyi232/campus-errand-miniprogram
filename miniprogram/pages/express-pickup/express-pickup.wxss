@@ -1,0 +1,21 @@
+.form-card { margin-top: 20rpx; }
+.submit-btn { margin-top: 40rpx; }
+.picker-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.placeholder { color: #B0B3BE; }
+.picker-arrow { color: #B0B3BE; font-size: 24rpx; }
+.map-btn {
+  background: #E3FCEF;
+  color: #36B37E;
+  padding: 16rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}

@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">商家入驻申请</text>
+    <text class="page-subtitle">填写信息后等待管理员审核</text>
+  </view>
+  <view class="card">
+    <view class="form-group">
+      <text class="form-label">店铺名称 *</text>
+      <input class="form-input" placeholder="请输入店铺名称" value="{{form.shop_name}}" bindinput="onInput" data-field="shop_name"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">经营类目 *</text>
+      <picker range="{{cateList}}" bindchange="onCateChange">
+        <view class="form-input" style="display:flex;align-items:center;justify-content:space-between;line-height:88rpx;">
+          <text style="{{form.category ? '' : 'color:#B0B3BE'}}">{{form.category || '请选择类目'}}</text><text style="color:#B0B3BE">▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">联系电话 *</text>
+      <input class="form-input" type="number" placeholder="请输入联系电话" value="{{form.contact}}" bindinput="onInput" data-field="contact"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">营业时间</text>
+      <input class="form-input" placeholder="如：08:00-22:00" value="{{form.business_hours}}" bindinput="onInput" data-field="business_hours"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">配送范围</text>
+      <input class="form-input" placeholder="如：主校区全覆盖" value="{{form.delivery_range}}" bindinput="onInput" data-field="delivery_range"/>
+    </view>
+  </view>
+  <view class="btn-primary" style="margin-top:40rpx" bindtap="submit">提交申请</view>
+</view>

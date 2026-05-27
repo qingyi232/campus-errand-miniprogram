@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="card">
+    <view class="form-group">
+      <text class="form-label">商品名称 *</text>
+      <input class="form-input" placeholder="请输入商品名称" value="{{form.name}}" bindinput="onInput" data-field="name"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">商品描述</text>
+      <textarea class="form-textarea" placeholder="详细描述商品" value="{{form.description}}" bindinput="onInput" data-field="description"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">价格（元）*</text>
+      <input class="form-input" type="digit" placeholder="请输入价格" value="{{form.price}}" bindinput="onInput" data-field="price"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">库存 *</text>
+      <input class="form-input" type="number" placeholder="请输入库存" value="{{form.stock}}" bindinput="onInput" data-field="stock"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">分类</text>
+      <input class="form-input" placeholder="如：饮料、零食" value="{{form.category}}" bindinput="onInput" data-field="category"/>
+    </view>
+  </view>
+  <view class="btn-primary" style="margin-top:40rpx" bindtap="save">{{isEdit ? '保存修改' : '添加商品'}}</view>
+</view>

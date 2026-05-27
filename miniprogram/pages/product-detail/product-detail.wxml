@@ -1,0 +1,44 @@
+<view class="container" wx:if="{{product}}">
+  <swiper class="img-swiper" indicator-dots circular>
+    <swiper-item wx:for="{{product.images}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFill" class="detail-img" bindtap="previewImg" data-url="{{item}}"/>
+    </swiper-item>
+  </swiper>
+
+  <view class="detail-card card">
+    <view class="price-row flex flex-between flex-center">
+      <view>
+        <text class="price-unit">¥</text>
+        <text class="price detail-price">{{product.price}}</text>
+      </view>
+      <text class="stock-tag">库存 {{product.stock}}</text>
+    </view>
+    <text class="detail-title">{{product.name}}</text>
+    <text class="detail-desc">{{product.description}}</text>
+  </view>
+
+  <view class="card">
+    <text class="card-title">店铺信息</text>
+    <view class="shop-row">
+      <text class="shop-label">{{product.shop_name}}</text>
+      <text class="shop-rating">
+        <image class="star-icon-sm" src="/images/icons/star.png" mode="aspectFit" style="vertical-align:middle;margin-right:4rpx"/>{{product.shop_rating}}
+      </text>
+    </view>
+    <view class="shop-row" style="margin-top:8rpx">
+      <text style="font-size:24rpx;color:#8F92A1">{{product.business_hours || ''}}</text>
+      <text style="font-size:24rpx;color:#8F92A1">{{product.delivery_range || ''}}</text>
+    </view>
+  </view>
+
+  <view style="height:120rpx"></view>
+
+  <view class="bottom-bar">
+    <view class="qty-control">
+      <view class="qty-btn" bindtap="minus">-</view>
+      <text class="qty-num">{{quantity}}</text>
+      <view class="qty-btn" bindtap="plus">+</view>
+    </view>
+    <view class="buy-btn" bindtap="buyNow">立即购买 ¥{{totalPrice}}</view>
+  </view>
+</view>

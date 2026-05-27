@@ -1,0 +1,11 @@
+.top-bar { margin-bottom: 20rpx; }
+.add-btn { background: #36B37E; color: #fff; padding: 12rpx 28rpx; border-radius: 28rpx; font-size: 26rpx; font-weight: 600; }
+
+.goods-cover { width: 160rpx; height: 160rpx; border-radius: 12rpx; flex-shrink: 0; }
+.goods-title { font-size: 28rpx; font-weight: 600; color: #172B4D; display: block; margin-bottom: 8rpx; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.goods-price { font-size: 32rpx; display: block; margin-bottom: 8rpx; }
+.goods-meta { font-size: 22rpx; color: #8F92A1; display: flex; align-items: center; }
+
+.action-btn { font-size: 24rpx; color: #36B37E; padding: 8rpx 20rpx; border: 1rpx solid #36B37E; border-radius: 20rpx; }
+.action-btn.edit { color: #0084FF; border-color: #0084FF; }
+.action-btn.del { color: #FF5630; border-color: #FF5630; }

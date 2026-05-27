@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{status === '' ? 'active' : ''}}" bindtap="changeStatus" data-s="">全部</view>
+    <view class="filter-item {{status === 'pending' ? 'active' : ''}}" bindtap="changeStatus" data-s="pending">待接单</view>
+    <view class="filter-item {{status === 'accepted' ? 'active' : ''}}" bindtap="changeStatus" data-s="accepted">进行中</view>
+    <view class="filter-item {{status === 'completed' ? 'active' : ''}}" bindtap="changeStatus" data-s="completed">已完成</view>
+  </view>
+
+  <view class="task-item card" wx:for="{{tasks}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="flex flex-between flex-center">
+      <view class="tag {{item.status === 'pending' ? 'tag-orange' : item.status === 'completed' ? 'tag-gray' : 'tag-green'}}">
+        {{item.status === 'pending' ? '待接单' : item.status === 'accepted' ? '已接单' : item.status === 'delivering' ? '配送中' : item.status === 'completed' ? '已完成' : '已取消'}}
+      </view>
+      <text class="price"><text class="price-unit">¥</text>{{item.reward}}</text>
+    </view>
+    <view class="task-type flex flex-center" style="gap:4rpx"><image class="icon-xs" src="/images/icons/{{item.type === 'express_pickup' ? 'pickup' : item.type === 'express_send' ? 'send' : 'buy'}}.png" mode="aspectFit"/>{{item.type === 'express_pickup' ? '取快递' : item.type === 'express_send' ? '寄快递' : '帮买'}}</view>
+    <text class="task-time">{{item.created_at}}</text>
+    <view class="runner-info flex flex-center" wx:if="{{item.runner_name}}">
+      <image class="avatar-sm" src="{{item.runner_avatar}}" mode="aspectFill"/>
+      <text class="runner-name">跑腿员：{{item.runner_name}}</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{tasks.length === 0}}">
+    <image class="icon-lg" src="/images/icons/list.png" mode="aspectFit"/>
+    <text>暂无任务记录</text>
+  </view>
+</view>

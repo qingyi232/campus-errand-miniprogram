@@ -1,0 +1,253 @@
+page {
+  background-color: #F8F9FB;
+  color: #172B4D;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+view, text, image {
+  box-sizing: border-box;
+}
+
+.icon-xs { width: 32rpx; height: 32rpx; }
+.icon-sm { width: 40rpx; height: 40rpx; }
+.icon-md { width: 56rpx; height: 56rpx; }
+.icon-lg { width: 80rpx; height: 80rpx; }
+.star-icon-sm { width: 28rpx; height: 28rpx; }
+.review-stars-wrap, .avg-stars-wrap { display: flex; align-items: center; gap: 2rpx; }
+
+.container {
+  padding: 24rpx;
+  min-height: 100vh;
+}
+
+/* 通用按钮 */
+.btn-primary {
+  background: #36B37E;
+  color: #fff;
+  border-radius: 16rpx;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-outline {
+  border: 2rpx solid #36B37E;
+  color: #36B37E;
+  border-radius: 16rpx;
+  text-align: center;
+  padding: 22rpx 0;
+  font-size: 30rpx;
+  font-weight: 500;
+  background: #fff;
+}
+
+.btn-outline:active {
+  background: #f0faf5;
+}
+
+.btn-sm {
+  padding: 12rpx 28rpx;
+  font-size: 24rpx;
+  border-radius: 12rpx;
+  display: inline-block;
+}
+
+.btn-danger {
+  background: #FF5630;
+  color: #fff;
+  border-radius: 16rpx;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+/* 卡片 */
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.tag-green { background: #E3FCEF; color: #36B37E; }
+.tag-orange { background: #FFF4E5; color: #FF9500; }
+.tag-blue { background: #E6F4FF; color: #0084FF; }
+.tag-gray { background: #F0F1F3; color: #8F92A1; }
+.tag-red { background: #FFEBE6; color: #FF5630; }
+
+/* 输入表单 */
+.form-group {
+  margin-bottom: 28rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #172B4D;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  background: #F8F9FB;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #172B4D;
+  border: 2rpx solid transparent;
+}
+
+.form-input:focus,
+.form-input-focus {
+  border-color: #36B37E;
+  background: #fff;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 180rpx;
+  background: #F8F9FB;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  color: #172B4D;
+  border: 2rpx solid transparent;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-state image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.empty-state text {
+  color: #8F92A1;
+  font-size: 28rpx;
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: #F0F1F3;
+  margin: 20rpx 0;
+}
+
+/* 头像 */
+.avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: #F0F1F3;
+}
+
+.avatar-sm {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #F0F1F3;
+}
+
+/* 价格 */
+.price {
+  color: #FF5630;
+  font-weight: 700;
+}
+
+.price-unit {
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+/* 弹性布局 */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-center { align-items: center; }
+.flex-between { justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+/* 页面标题区 */
+.page-header {
+  padding: 20rpx 32rpx 32rpx;
+  background: #fff;
+}
+
+.page-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #172B4D;
+}
+
+.page-subtitle {
+  font-size: 26rpx;
+  color: #8F92A1;
+  margin-top: 8rpx;
+}
+
+/* 节标题 */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #172B4D;
+}
+
+.section-more {
+  font-size: 24rpx;
+  color: #8F92A1;
+}
+
+/* 底部安全区 */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 加载中 */
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.loading-wrap text {
+  color: #8F92A1;
+  font-size: 26rpx;
+}

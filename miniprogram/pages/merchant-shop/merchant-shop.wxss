@@ -1,0 +1,16 @@
+.shop-header { text-align: center; padding: 32rpx; }
+.shop-name { font-size: 36rpx; font-weight: 800; color: #172B4D; display: block; margin-bottom: 12rpx; }
+.shop-meta { display: flex; justify-content: center; gap: 24rpx; margin-bottom: 12rpx; }
+.shop-category { font-size: 24rpx; color: #36B37E; background: #E3FCEF; padding: 4rpx 16rpx; border-radius: 16rpx; }
+.shop-rating { font-size: 24rpx; color: #FF9500; font-weight: 600; }
+.shop-hours { font-size: 22rpx; color: #8F92A1; display: block; margin-bottom: 8rpx; }
+.shop-announce { font-size: 24rpx; color: #505F79; display: block; margin-top: 8rpx; }
+
+.section-title { font-size: 30rpx; font-weight: 700; color: #172B4D; margin: 24rpx 0 16rpx; }
+
+.product-grid { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.product-card { width: calc(50% - 8rpx); padding: 0 !important; overflow: hidden; }
+.product-img { width: 100%; height: 280rpx; }
+.product-info { padding: 16rpx; }
+.product-name { font-size: 26rpx; font-weight: 600; color: #172B4D; display: block; margin-bottom: 8rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.product-sales { font-size: 20rpx; color: #8F92A1; }

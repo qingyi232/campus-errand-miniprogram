@@ -1,0 +1,4 @@
+.stars { display: flex; justify-content: center; gap: 16rpx; margin-bottom: 12rpx; }
+.star-icon { width: 56rpx; height: 56rpx; opacity: 0.3; }
+.star-icon.active { opacity: 1; }
+.rating-text { text-align: center; font-size: 26rpx; color: #FF9500; display: block; }

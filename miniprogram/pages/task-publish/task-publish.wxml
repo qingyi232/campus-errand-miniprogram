@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">发布任务</text>
+    <text class="page-subtitle">选择你需要的服务类型</text>
+  </view>
+  <view class="type-list">
+    <view class="type-card card" bindtap="goType" data-type="express-pickup">
+      <image class="icon-md" src="/images/icons/pickup.png" mode="aspectFit"/>
+      <view class="type-info">
+        <text class="type-name">取快递</text>
+        <text class="type-desc">让同学帮你取快递送上楼</text>
+      </view>
+      <text class="type-arrow">▸</text>
+    </view>
+    <view class="type-card card" bindtap="goType" data-type="express-send">
+      <image class="icon-md" src="/images/icons/send.png" mode="aspectFit"/>
+      <view class="type-info">
+        <text class="type-name">寄快递</text>
+        <text class="type-desc">帮你把包裹寄出去</text>
+      </view>
+      <text class="type-arrow">▸</text>
+    </view>
+    <view class="type-card card" bindtap="goType" data-type="help-buy">
+      <image class="icon-md" src="/images/icons/buy.png" mode="aspectFit"/>
+      <view class="type-info">
+        <text class="type-name">帮买服务</text>
+        <text class="type-desc">帮你购买指定商品并送达</text>
+      </view>
+      <text class="type-arrow">▸</text>
+    </view>
+  </view>
+</view>

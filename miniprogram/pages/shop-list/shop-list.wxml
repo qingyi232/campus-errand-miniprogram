@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="shop-card card" wx:for="{{shops}}" wx:key="id" bindtap="goShop" data-id="{{item.id}}">
+    <view class="flex flex-between flex-center">
+      <view>
+        <text class="shop-name">{{item.shop_name}}</text>
+        <view class="shop-meta">
+          <text class="shop-category">{{item.category}}</text>
+          <view class="rating-wrap">
+            <image class="star-icon-sm" src="/images/icons/star.png" mode="aspectFit"/>
+            <text class="shop-rating">{{item.rating}}</text>
+          </view>
+        </view>
+      </view>
+      <text class="shop-arrow">▸</text>
+    </view>
+    <text class="shop-hours" wx:if="{{item.business_hours}}">营业时间：{{item.business_hours}}</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{shops.length === 0}}">
+    <image class="icon-lg" src="/images/icons/market.png" mode="aspectFit"/>
+    <text>暂无商家入驻</text>
+  </view>
+</view>

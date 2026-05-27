@@ -1,0 +1,55 @@
+<view class="container" wx:if="{{order}}">
+  <view class="status-bar {{order.status === 'completed' ? 'status-done' : order.status === 'cancelled' ? 'status-cancel' : 'status-active'}}">
+    <text class="status-text">{{order.statusText}}</text>
+  </view>
+
+  <view class="card">
+    <text class="card-title">商品信息</text>
+    <view class="flex" style="gap:16rpx;margin-top:16rpx">
+      <image class="prod-img" src="{{order.product_images[0] || '/images/icons/pickup.png'}}" mode="aspectFill" wx:if="{{order.product_images.length > 0}}"/>
+      <view class="flex-1">
+        <text class="prod-name">{{order.product_name}}</text>
+        <text class="prod-shop" wx:if="{{order.shop_name}}">{{order.shop_name}}</text>
+        <view class="flex flex-between" style="margin-top:8rpx">
+          <text class="price"><text class="price-unit">¥</text>{{order.total_amount}}</text>
+          <text class="prod-qty">x{{order.quantity}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{order.address || order.phone}}">
+    <text class="card-title">收货信息</text>
+    <view class="info-row" wx:if="{{order.address}}">
+      <text class="info-label">地址</text>
+      <text class="info-value">{{order.address}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.phone}}">
+      <text class="info-label">电话</text>
+      <text class="info-value">{{order.phone}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.remark}}">
+      <text class="info-label">备注</text>
+      <text class="info-value">{{order.remark}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="card-title">订单信息</text>
+    <view class="info-row">
+      <text class="info-label">订单编号</text>
+      <text class="info-value">{{order.order_no || order.id}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">下单时间</text>
+      <text class="info-value">{{order.created_at}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="container" wx:if="{{!order}}">
+  <view class="empty-state">
+    <image class="icon-lg" src="/images/icons/list.png" mode="aspectFit"/>
+    <text>订单不存在</text>
+  </view>
+</view>

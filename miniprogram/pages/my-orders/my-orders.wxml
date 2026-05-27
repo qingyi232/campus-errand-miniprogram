@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{status === '' ? 'active' : ''}}" bindtap="changeStatus" data-s="">全部</view>
+    <view class="filter-item {{status === 'accepted' ? 'active' : ''}}" bindtap="changeStatus" data-s="accepted">进行中</view>
+    <view class="filter-item {{status === 'completed' ? 'active' : ''}}" bindtap="changeStatus" data-s="completed">已完成</view>
+  </view>
+
+  <view class="task-item card" wx:for="{{tasks}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="flex flex-between flex-center">
+      <view class="tag {{item.status === 'completed' ? 'tag-gray' : 'tag-green'}}">
+        {{item.status === 'accepted' ? '已接单' : item.status === 'delivering' ? '配送中' : '已完成'}}
+      </view>
+      <text class="price"><text class="price-unit">¥</text>{{item.reward}}</text>
+    </view>
+    <view class="task-type flex flex-center" style="gap:4rpx"><image class="icon-xs" src="/images/icons/{{item.type === 'express_pickup' ? 'pickup' : item.type === 'express_send' ? 'send' : 'buy'}}.png" mode="aspectFit"/>{{item.type === 'express_pickup' ? '取快递' : item.type === 'express_send' ? '寄快递' : '帮买'}}</view>
+    <view class="pub-info flex flex-center" style="gap:8rpx;margin-top:12rpx;">
+      <image class="avatar-sm" src="{{item.avatar}}" mode="aspectFill"/>
+      <text style="font-size:24rpx;color:#505F79">发布者：{{item.nickname}}</text>
+      <text style="font-size:22rpx;color:#B0B3BE">{{item.campus}}</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{tasks.length === 0}}">
+    <image class="icon-lg" src="/images/icons/list.png" mode="aspectFit"/>
+    <text>暂无接单记录</text>
+  </view>
+</view>

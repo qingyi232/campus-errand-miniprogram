@@ -1,0 +1,8 @@
+.top-action { text-align: right; margin-bottom: 16rpx; }
+.read-all { font-size: 26rpx; color: #36B37E; }
+.msg-item.unread { border-left: 6rpx solid #36B37E; }
+.msg-icon { font-size: 32rpx; }
+.msg-title { font-size: 28rpx; font-weight: 600; color: #172B4D; }
+.unread-dot { width: 16rpx; height: 16rpx; border-radius: 50%; background: #FF5630; }
+.msg-content { display: block; font-size: 26rpx; color: #505F79; margin-top: 8rpx; }
+.msg-time { display: block; font-size: 22rpx; color: #B0B3BE; margin-top: 8rpx; }

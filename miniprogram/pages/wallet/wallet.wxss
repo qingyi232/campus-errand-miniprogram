@@ -1,0 +1,27 @@
+.balance-card {
+  background: linear-gradient(135deg, #36B37E, #57D9A3);
+  border-radius: 24rpx;
+  padding: 48rpx 32rpx;
+  text-align: center;
+  margin-bottom: 24rpx;
+  position: relative;
+}
+.balance-label { font-size: 26rpx; color: rgba(255,255,255,0.8); display: block; }
+.balance-amount { font-size: 72rpx; font-weight: 800; color: #fff; display: block; margin: 16rpx 0; }
+.recharge-btn {
+  display: inline-block;
+  background: rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 12rpx 48rpx;
+  border-radius: 32rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+.filter-bar { display: flex; gap: 16rpx; margin-bottom: 20rpx; }
+.filter-item { padding: 10rpx 24rpx; border-radius: 24rpx; font-size: 24rpx; background: #fff; color: #505F79; }
+.filter-item.active { background: #36B37E; color: #fff; }
+.record-desc { font-size: 28rpx; color: #172B4D; display: block; }
+.record-time { font-size: 22rpx; color: #B0B3BE; display: block; margin-top: 6rpx; }
+.record-amount { font-size: 32rpx; font-weight: 700; }
+.amount-green { color: #36B37E; }
+.amount-red { color: #FF5630; }

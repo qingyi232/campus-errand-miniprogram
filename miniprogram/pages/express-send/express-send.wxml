@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">发布寄快递任务</text>
+    <text class="page-subtitle">找人帮你寄出包裹</text>
+  </view>
+
+  <view class="form-card card">
+    <view class="form-group">
+      <text class="form-label">寄件地址 *</text>
+      <view class="flex flex-center" style="gap:12rpx">
+        <input class="form-input flex-1" placeholder="如：梅园1号楼302室" value="{{form.sender_address}}" bindinput="onInput" data-field="sender_address"/>
+        <view class="map-btn" bindtap="chooseLocation"><image class="icon-xs" src="/images/icons/location.png" mode="aspectFit" style="vertical-align:middle"/> 定位</view>
+      </view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">收件人姓名 *</text>
+      <input class="form-input" placeholder="请输入收件人姓名" value="{{form.receiver_name}}" bindinput="onInput" data-field="receiver_name"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">收件人电话 *</text>
+      <input class="form-input" type="number" placeholder="请输入收件人电话" value="{{form.receiver_phone}}" bindinput="onInput" data-field="receiver_phone"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">收件地址 *</text>
+      <textarea class="form-textarea" placeholder="请输入完整收件地址" value="{{form.receiver_address}}" bindinput="onInput" data-field="receiver_address"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">赏金（元）*</text>
+      <input class="form-input" type="digit" placeholder="最低2元" value="{{form.reward}}" bindinput="onInput" data-field="reward"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">备注</text>
+      <textarea class="form-textarea" placeholder="物品描述、注意事项等" value="{{form.remark}}" bindinput="onInput" data-field="remark"/>
+    </view>
+  </view>
+
+  <view class="btn-primary submit-btn" bindtap="submit">发布任务</view>
+</view>

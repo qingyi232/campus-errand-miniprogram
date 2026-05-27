@@ -1,0 +1,52 @@
+.img-swiper { height: 560rpx; }
+.detail-img { width: 100%; height: 560rpx; }
+
+.price-row { margin-bottom: 16rpx; }
+.detail-price { font-size: 48rpx; }
+.orig-price { font-size: 24rpx; color: #B0B3BE; text-decoration: line-through; margin-left: 16rpx; }
+.view-tag { font-size: 22rpx; color: #8F92A1; }
+
+.detail-title { font-size: 32rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 12rpx; line-height: 1.4; }
+.detail-desc { font-size: 26rpx; color: #505F79; display: block; margin-bottom: 16rpx; line-height: 1.6; }
+
+.card-title { font-size: 30rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 20rpx; }
+.seller-name { font-size: 28rpx; font-weight: 600; display: block; }
+.seller-campus { font-size: 24rpx; color: #8F92A1; display: block; margin-top: 4rpx; }
+
+.contact-info { margin-top: 16rpx; padding-top: 16rpx; border-top: 1rpx solid #F4F5F7; }
+.contact-label { font-size: 24rpx; color: #8F92A1; }
+.contact-val { font-size: 26rpx; color: #36B37E; font-weight: 500; }
+
+.comment-item { padding: 16rpx 0; border-bottom: 1rpx solid #F8F9FB; }
+.comment-item:last-child { border-bottom: none; }
+.comment-name { font-size: 24rpx; color: #505F79; font-weight: 500; flex: 1; }
+.comment-time { font-size: 20rpx; color: #B0B3BE; }
+.comment-text { font-size: 26rpx; color: #172B4D; margin-left: 64rpx; }
+.empty-hint { text-align: center; color: #B0B3BE; font-size: 26rpx; padding: 20rpx 0; }
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 16rpx 24rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.06);
+}
+.input-area { gap: 16rpx; }
+.comment-input {
+  flex: 1;
+  height: 72rpx;
+  background: #F4F5F7;
+  border-radius: 36rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+}
+.send-btn {
+  background: #36B37E;
+  color: #fff;
+  padding: 14rpx 32rpx;
+  border-radius: 36rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}

@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">发布取快递任务</text>
+    <text class="page-subtitle">发布后等待跑腿同学接单</text>
+  </view>
+
+  <view class="form-card card">
+    <view class="form-group">
+      <text class="form-label">快递点 *</text>
+      <picker mode="selector" range="{{expressPoints}}" bindchange="onPointChange">
+        <view class="form-input picker-input">
+          <text class="{{form.express_point ? '' : 'placeholder'}}">{{form.express_point || '请选择快递点'}}</text>
+          <text class="picker-arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">取件码 *</text>
+      <input class="form-input" placeholder="请输入取件码" value="{{form.pickup_code}}" bindinput="onInput" data-field="pickup_code"/>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">送达地址 *</text>
+      <view class="addr-row flex flex-center" style="gap:12rpx">
+        <input class="form-input flex-1" placeholder="如：梅园1号楼302室" value="{{form.delivery_address}}" bindinput="onInput" data-field="delivery_address"/>
+        <view class="map-btn" bindtap="chooseLocation"><image class="icon-xs" src="/images/icons/location.png" mode="aspectFit" style="vertical-align:middle"/> 定位</view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">赏金（元）*</text>
+      <input class="form-input" type="digit" placeholder="最低2元" value="{{form.reward}}" bindinput="onInput" data-field="reward"/>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">备注</text>
+      <textarea class="form-textarea" placeholder="如：快递比较重、需要在几点前送达等" value="{{form.remark}}" bindinput="onInput" data-field="remark"/>
+    </view>
+  </view>
+
+  <view class="btn-primary submit-btn" bindtap="submit">发布任务</view>
+</view>

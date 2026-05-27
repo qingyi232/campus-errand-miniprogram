@@ -1,0 +1,10 @@
+.type-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+}
+.type-icon { font-size: 56rpx; margin-right: 24rpx; }
+.type-info { flex: 1; }
+.type-name { font-size: 32rpx; font-weight: 700; color: #172B4D; display: block; }
+.type-desc { font-size: 24rpx; color: #8F92A1; display: block; margin-top: 6rpx; }
+.type-arrow { font-size: 28rpx; color: #B0B3BE; }

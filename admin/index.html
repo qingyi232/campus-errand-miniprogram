@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校园跑腿 - 管理后台</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #36B37E;
+      --primary-light: #E3FCEF;
+      --danger: #FF5630;
+      --warning: #FF9500;
+      --text: #172B4D;
+      --text-sub: #6B778C;
+      --text-light: #B0B3BE;
+      --bg: #F4F5F7;
+      --card: #fff;
+      --border: #E8E8E8;
+      --radius: 12px;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e8f8f0, #f4f5f7);
+    }
+    .login-box {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 48px;
+      width: 400px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .login-box h1 { font-size: 28px; margin-bottom: 8px; }
+    .login-box p { color: var(--text-sub); margin-bottom: 32px; }
+    .login-box input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 16px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    .login-box input:focus { border-color: var(--primary); }
+    .login-box .btn-login {
+      width: 100%;
+      height: 44px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .login-box .btn-login:hover { opacity: 0.9; }
+    .login-hint { margin-top: 16px; font-size: 13px; color: var(--text-light); }
+
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 240px;
+      background: var(--text);
+      color: #fff;
+      padding: 24px 0;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+    .sidebar .logo { padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar .logo h2 { font-size: 20px; }
+    .sidebar .logo span { font-size: 12px; color: rgba(255,255,255,0.5); }
+    .nav-item {
+      padding: 14px 24px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.2s;
+    }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); color: #fff; }
+    .nav-item.active { border-left: 3px solid var(--primary); }
+
+    .main { margin-left: 240px; flex: 1; padding: 24px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .header h1 { font-size: 24px; }
+    .logout-btn { color: var(--danger); cursor: pointer; font-size: 14px; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-box {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .stat-box .label { font-size: 13px; color: var(--text-sub); }
+    .stat-box .value { font-size: 32px; font-weight: 800; margin: 8px 0; }
+    .stat-box .sub { font-size: 12px; color: var(--text-light); }
+
+    .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+
+    .toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+    .toolbar input, .toolbar select {
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 13px;
+      outline: none;
+    }
+    .toolbar input:focus, .toolbar select:focus { border-color: var(--primary); }
+
+    .btn { padding: 8px 16px; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-weight: 500; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-sm { padding: 4px 12px; font-size: 12px; }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    th { font-weight: 600; color: var(--text-sub); font-size: 12px; text-transform: uppercase; }
+    tr:hover td { background: #fafafa; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .badge-green { background: var(--primary-light); color: var(--primary); }
+    .badge-orange { background: #FFF4E5; color: var(--warning); }
+    .badge-red { background: #FFEBE6; color: var(--danger); }
+    .badge-gray { background: #F0F1F3; color: var(--text-sub); }
+    .badge-blue { background: #E6F4FF; color: #0084FF; }
+
+    .hidden { display: none !important; }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      width: 480px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-box h3 { margin-bottom: 20px; }
+    .modal-box .form-group { margin-bottom: 16px; }
+    .modal-box label { display: block; font-size: 13px; color: var(--text-sub); margin-bottom: 4px; }
+    .modal-box input, .modal-box textarea, .modal-box select {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    .modal-box textarea { height: 80px; padding: 10px 12px; resize: vertical; }
+    .modal-box .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div id="loginPage" class="login-page">
+  <div class="login-box">
+    <h1>校园跑腿</h1>
+    <p>管理员后台登录</p>
+    <input id="loginUser" placeholder="账号" value="admin">
+    <input id="loginPwd" type="password" placeholder="密码" value="admin123">
+    <button class="btn-login" onclick="doLogin()">登 录</button>
+    <div class="login-hint">测试账号: admin / admin123</div>
+  </div>
+</div>
+
+<div id="adminApp" class="layout hidden">
+  <div class="sidebar">
+    <div class="logo">
+      <h2>校园跑腿</h2>
+      <span>管理后台 v1.0</span>
+    </div>
+    <div class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard',this)">数据总览</div>
+    <div class="nav-item" data-tab="users" onclick="switchTab('users',this)">用户管理</div>
+    <div class="nav-item" data-tab="merchants" onclick="switchTab('merchants',this)">商家管理</div>
+    <div class="nav-item" data-tab="tasks" onclick="switchTab('tasks',this)">任务管理</div>
+    <div class="nav-item" data-tab="market" onclick="switchTab('market',this)">二手市场</div>
+    <div class="nav-item" data-tab="banners" onclick="switchTab('banners',this)">轮播管理</div>
+    <div class="nav-item" data-tab="announcements" onclick="switchTab('announcements',this)">公告管理</div>
+    <div class="nav-item" data-tab="categories" onclick="switchTab('categories',this)">分类管理</div>
+    <div class="nav-item" data-tab="orders" onclick="switchTab('orders',this)">订单流水</div>
+    <div class="nav-item" data-tab="settings" onclick="switchTab('settings',this)">系统设置</div>
+    <div class="nav-item" data-tab="logs" onclick="switchTab('logs',this)">操作日志</div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1 id="pageTitle">数据总览</h1>
+      <span class="logout-btn" onclick="doLogout()">退出登录</span>
+    </div>
+
+    <!-- 数据总览 -->
+    <div id="tab-dashboard">
+      <div class="stats-grid">
+        <div class="stat-box"><div class="label">总用户数</div><div class="value" id="s-users">0</div></div>
+        <div class="stat-box"><div class="label">活跃用户</div><div class="value" id="s-active">0</div></div>
+        <div class="stat-box"><div class="label">总任务数</div><div class="value" id="s-tasks">0</div></div>
+        <div class="stat-box"><div class="label">完成率</div><div class="value" id="s-rate">0%</div></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="label">跑腿交易额</div><div class="value" id="s-amount">¥0</div></div>
+        <div class="stat-box"><div class="label">商家交易额</div><div class="value" id="s-merchant-amount">¥0</div></div>
+        <div class="stat-box"><div class="label">入驻商家</div><div class="value" id="s-merchants">0</div></div>
+        <div class="stat-box"><div class="label">完成任务</div><div class="value" id="s-completed">0</div></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="label">二手商品总数</div><div class="value" id="s-goods">0</div></div>
+        <div class="stat-box"><div class="label">在售商品</div><div class="value" id="s-onsale">0</div></div>
+        <div class="stat-box"><div class="label">已售出</div><div class="value" id="s-sold">0</div></div>
+        <div class="stat-box"><div class="label">商家订单数</div><div class="value" id="s-morders">0</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">近30天任务发布趋势</div>
+        <div id="taskTrendChart" style="display:flex;align-items:flex-end;gap:3px;height:160px;padding:10px 0;overflow-x:auto"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">近30天交易额趋势</div>
+        <div id="amountTrendChart" style="display:flex;align-items:flex-end;gap:3px;height:160px;padding:10px 0;overflow-x:auto"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">任务类型分布</div>
+        <div id="typeStats" style="display:flex;gap:16px;flex-wrap:wrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">商家营收排行</div>
+        <table><thead><tr><th>排名</th><th>商家</th><th>营收</th><th>订单数</th></tr></thead><tbody id="merchantRank"></tbody></table>
+      </div>
+    </div>
+
+    <!-- 用户管理 -->
+    <div id="tab-users" class="hidden">
+      <div class="toolbar">
+        <input id="userSearch" placeholder="搜索用户昵称/手机号" oninput="loadUsers()">
+      </div>
+      <div class="card"><table><thead><tr><th>ID</th><th>昵称</th><th>手机号</th><th>校区</th><th>角色</th><th>余额</th><th>信用分</th><th>状态</th><th>操作</th></tr></thead><tbody id="userTable"></tbody></table></div>
+    </div>
+
+    <!-- 商家管理 -->
+    <div id="tab-merchants" class="hidden">
+      <div class="toolbar">
+        <select id="merchantStatus" onchange="loadMerchants()">
+          <option value="">全部状态</option>
+          <option value="pending">待审核</option>
+          <option value="approved">已通过</option>
+          <option value="rejected">已拒绝</option>
+        </select>
+      </div>
+      <div class="card"><table><thead><tr><th>ID</th><th>店铺名称</th><th>负责人</th><th>类目</th><th>评分</th><th>状态</th><th>操作</th></tr></thead><tbody id="merchantTable"></tbody></table></div>
+    </div>
+
+    <!-- 任务管理 -->
+    <div id="tab-tasks" class="hidden">
+      <div class="toolbar">
+        <select id="taskType" onchange="loadTasks()">
+          <option value="">全部类型</option>
+          <option value="express_pickup">取快递</option>
+          <option value="express_send">寄快递</option>
+          <option value="help_buy">帮买</option>
+        </select>
+        <select id="taskStatus" onchange="loadTasks()">
+          <option value="">全部状态</option>
+          <option value="pending">待接单</option>
+          <option value="accepted">已接单</option>
+          <option value="delivering">配送中</option>
+          <option value="completed">已完成</option>
+          <option value="cancelled">已取消</option>
+        </select>
+      </div>
+      <div class="card"><table><thead><tr><th>ID</th><th>类型</th><th>发布者</th><th>跑腿员</th><th>赏金</th><th>状态</th><th>时间</th><th>操作</th></tr></thead><tbody id="taskTable"></tbody></table></div>
+    </div>
+
+    <!-- 二手市场 -->
+    <div id="tab-market" class="hidden">
+      <div class="toolbar">
+        <input id="marketSearch" placeholder="搜索商品" oninput="loadMarket()">
+      </div>
+      <div class="card"><table><thead><tr><th>ID</th><th>标题</th><th>卖家</th><th>价格</th><th>浏览</th><th>状态</th><th>操作</th></tr></thead><tbody id="marketTable"></tbody></table></div>
+    </div>
+
+    <!-- 轮播管理 -->
+    <div id="tab-banners" class="hidden">
+      <div class="toolbar"><button class="btn btn-primary" onclick="showBannerModal()">+ 添加轮播</button></div>
+      <div class="card"><table><thead><tr><th>ID</th><th>标题</th><th>图片</th><th>排序</th><th>状态</th><th>操作</th></tr></thead><tbody id="bannerTable"></tbody></table></div>
+    </div>
+
+    <!-- 公告管理 -->
+    <div id="tab-announcements" class="hidden">
+      <div class="toolbar"><button class="btn btn-primary" onclick="showAnnouncementModal()">+ 发布公告</button></div>
+      <div class="card"><table><thead><tr><th>ID</th><th>标题</th><th>内容</th><th>时间</th><th>操作</th></tr></thead><tbody id="announcementTable"></tbody></table></div>
+    </div>
+
+    <!-- 分类管理 -->
+    <div id="tab-categories" class="hidden">
+      <div class="toolbar">
+        <select id="cateTypeFilter" onchange="loadCategories()">
+          <option value="">全部类型</option>
+          <option value="service">服务分类</option>
+          <option value="second_hand">二手分类</option>
+          <option value="goods">商品分类</option>
+        </select>
+        <button class="btn btn-primary" onclick="showCategoryModal()">+ 添加分类</button>
+      </div>
+      <div class="card"><table><thead><tr><th>ID</th><th>名称</th><th>类型</th><th>排序</th><th>状态</th><th>操作</th></tr></thead><tbody id="categoryTable"></tbody></table></div>
+    </div>
+
+    <!-- 订单流水 -->
+    <div id="tab-orders" class="hidden">
+      <div class="toolbar">
+        <select id="orderTypeFilter" onchange="loadOrders()">
+          <option value="">全部类型</option>
+          <option value="task">跑腿订单</option>
+          <option value="merchant">商家订单</option>
+        </select>
+      </div>
+      <div class="card"><table><thead><tr><th>编号</th><th>类型</th><th>用户</th><th>内容</th><th>数量</th><th>金额</th><th>状态</th><th>时间</th></tr></thead><tbody id="orderTable"></tbody></table></div>
+    </div>
+
+    <!-- 系统设置 -->
+    <div id="tab-settings" class="hidden">
+      <div class="card" id="settingsForm"></div>
+    </div>
+
+    <!-- 操作日志 -->
+    <div id="tab-logs" class="hidden">
+      <div class="card"><table><thead><tr><th>ID</th><th>管理员</th><th>操作</th><th>详情</th><th>时间</th></tr></thead><tbody id="logTable"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<div id="modalOverlay" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+const API = 'http://localhost:3000/api';
+let token = localStorage.getItem('admin_token') || '';
+const titles = { dashboard:'数据总览', users:'用户管理', merchants:'商家管理', tasks:'任务管理', market:'二手市场', banners:'轮播管理', announcements:'公告管理', categories:'分类管理', orders:'订单流水', settings:'系统设置', logs:'操作日志' };
+
+function request(url, method='GET', body=null) {
+  const opts = { method, headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token } };
+  if (body) opts.body = JSON.stringify(body);
+  return fetch(API+url, opts).then(r=>r.json());
+}
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPwd').value;
+  request('/user/login/password', 'POST', {username:u, password:p}).then(r => {
+    if (r.code===200) {
+      token = r.data.token;
+      localStorage.setItem('admin_token', token);
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('adminApp').classList.remove('hidden');
+      switchTab('dashboard');
+    } else alert(r.msg||'登录失败');
+  });
+}
+
+function doLogout() {
+  localStorage.removeItem('admin_token');
+  token = '';
+  document.getElementById('adminApp').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+}
+
+if (token) {
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('adminApp').classList.remove('hidden');
+  switchTab('dashboard');
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('[id^="tab-"]').forEach(e => e.classList.add('hidden'));
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else { const n = document.querySelector('.nav-item[data-tab="'+tab+'"]'); if(n) n.classList.add('active'); }
+  document.getElementById('pageTitle').textContent = titles[tab]||tab;
+  const loaders = { dashboard:loadDashboard, users:loadUsers, merchants:loadMerchants, tasks:loadTasks, market:loadMarket, banners:loadBanners, announcements:loadAnnouncements, categories:loadCategories, orders:loadOrders, settings:loadSettings, logs:loadLogs };
+  if (loaders[tab]) loaders[tab]();
+}
+
+function renderBarChart(containerId, data, valueKey, labelKey, color) {
+  const el = document.getElementById(containerId);
+  if (!data || data.length === 0) { el.innerHTML = '<span style="color:#999">暂无数据</span>'; return; }
+  const maxVal = Math.max(...data.map(d => d[valueKey] || 0), 1);
+  el.innerHTML = data.map(d => {
+    const val = d[valueKey] || 0;
+    const h = Math.max(val / maxVal * 130, 2);
+    const label = (d[labelKey]||'').slice(5);
+    return `<div style="display:flex;flex-direction:column;align-items:center;min-width:18px;flex:1">
+      <span style="font-size:10px;color:#666;margin-bottom:2px">${val}</span>
+      <div style="width:100%;max-width:28px;height:${h}px;background:${color};border-radius:3px 3px 0 0;transition:height 0.3s"></div>
+      <span style="font-size:9px;color:#aaa;margin-top:2px;white-space:nowrap">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+function loadDashboard() {
+  request('/admin/stats').then(r => {
+    if (r.code!==200) return;
+    const d = r.data;
+    document.getElementById('s-users').textContent = d.totalUsers;
+    document.getElementById('s-active').textContent = d.activeUsers;
+    document.getElementById('s-tasks').textContent = d.totalTasks;
+    document.getElementById('s-rate').textContent = d.completionRate+'%';
+    document.getElementById('s-amount').textContent = '¥'+d.totalAmount;
+    document.getElementById('s-merchant-amount').textContent = '¥'+d.merchantOrderAmount;
+    document.getElementById('s-goods').textContent = d.totalGoods;
+    document.getElementById('s-merchants').textContent = d.totalMerchants;
+    document.getElementById('s-completed').textContent = d.completedTasks;
+    document.getElementById('s-onsale').textContent = d.onSaleGoods;
+    document.getElementById('s-sold').textContent = d.soldGoods;
+    document.getElementById('s-morders').textContent = d.merchantOrderCount;
+
+    renderBarChart('taskTrendChart', d.taskTrend, 'count', 'date', '#36B37E');
+    renderBarChart('amountTrendChart', d.amountTrend, 'amount', 'date', '#FF9500');
+
+    const typeMap = {express_pickup:'取快递', express_send:'寄快递', help_buy:'帮买'};
+    const typeColors = {express_pickup:'#36B37E', express_send:'#0084FF', help_buy:'#FF9500'};
+    const totalType = (d.taskTypeStats||[]).reduce((s,t)=>s+t.count, 0) || 1;
+    document.getElementById('typeStats').innerHTML = (d.taskTypeStats||[]).map(t => {
+      const pct = (t.count/totalType*100).toFixed(0);
+      return `<div style="flex:1;min-width:120px;background:#f9f9f9;border-radius:10px;padding:16px;text-align:center">
+        <div style="font-size:28px;font-weight:800;color:${typeColors[t.type]||'#333'}">${t.count}</div>
+        <div style="font-size:13px;color:#666;margin:4px 0">${typeMap[t.type]||t.type}</div>
+        <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${typeColors[t.type]||'#36B37E'};border-radius:3px"></div>
+        </div>
+        <div style="font-size:11px;color:#999;margin-top:4px">${pct}%</div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('merchantRank').innerHTML = (d.merchantRank||[]).map((m,i) =>
+      `<tr><td>${i+1}</td><td>${m.shop_name}</td><td>¥${m.revenue}</td><td>${m.order_count}</td></tr>`
+    ).join('');
+  });
+}
+
+function loadUsers() {
+  const kw = document.getElementById('userSearch')?.value || '';
+  request('/admin/users?keyword='+encodeURIComponent(kw)).then(r => {
+    if (r.code!==200) return;
+    document.getElementById('userTable').innerHTML = (r.data.list||[]).map(u =>
+      `<tr><td>${u.id}</td><td>${u.nickname}</td><td>${u.phone||'-'}</td><td>${u.campus||'-'}</td>
+      <td><span class="badge ${u.role==='admin'?'badge-red':u.role==='merchant'?'badge-blue':'badge-green'}">${u.role}</span></td>
+      <td>¥${u.balance}</td><td>${u.credit_score}</td>
+      <td><span class="badge ${u.status?'badge-green':'badge-red'}">${u.status?'正常':'禁用'}</span></td>
+      <td><button class="btn btn-sm ${u.status?'btn-danger':'btn-primary'}" onclick="toggleUser(${u.id},${u.status})">${u.status?'禁用':'启用'}</button></td></tr>`
+    ).join('');
+  });
+}
+
+function toggleUser(id, status) {
+  request('/admin/users/'+id+'/status', 'PUT', {status: status?0:1}).then(()=>loadUsers());
+}
+
+function loadMerchants() {
+  const st = document.getElementById('merchantStatus')?.value || '';
+  request('/admin/merchants?status='+st).then(r => {
+    if (r.code!==200) return;
+    const statusMap = {pending:'待审核', approved:'已通过', rejected:'已拒绝', disabled:'已禁用'};
+    const badgeMap = {pending:'badge-orange', approved:'badge-green', rejected:'badge-red', disabled:'badge-gray'};
+    document.getElementById('merchantTable').innerHTML = (r.data||[]).map(m =>
+      `<tr><td>${m.id}</td><td>${m.shop_name}</td><td>${m.nickname||'-'}</td><td>${m.category||'-'}</td><td>${m.rating}</td>
+      <td><span class="badge ${badgeMap[m.status]}">${statusMap[m.status]}</span></td>
+      <td>${m.status==='pending'?`<button class="btn btn-sm btn-primary" onclick="auditMerchant(${m.id},'approved')">通过</button>
+      <button class="btn btn-sm btn-danger" onclick="auditMerchant(${m.id},'rejected')">拒绝</button>`:
+      m.status==='approved'?`<button class="btn btn-sm btn-danger" onclick="auditMerchant(${m.id},'disabled')">禁用</button>`:
+      m.status==='disabled'?`<button class="btn btn-sm btn-primary" onclick="auditMerchant(${m.id},'approved')">启用</button>`:
+      m.status==='rejected'?`<button class="btn btn-sm btn-primary" onclick="auditMerchant(${m.id},'approved')">重新通过</button>`:'-'}</td></tr>`
+    ).join('');
+  });
+}
+
+function auditMerchant(id, status) {
+  request('/admin/merchants/'+id+'/audit', 'PUT', {status}).then(()=>loadMerchants());
+}
+
+function loadTasks() {
+  const type = document.getElementById('taskType')?.value || '';
+  const status = document.getElementById('taskStatus')?.value || '';
+  request('/admin/tasks?type='+type+'&status='+status).then(r => {
+    if (r.code!==200) return;
+    const typeMap = {express_pickup:'取快递', express_send:'寄快递', help_buy:'帮买'};
+    const statusMap = {pending:'待接单', accepted:'已接单', delivering:'配送中', completed:'已完成', cancelled:'已取消'};
+    const badgeMap = {pending:'badge-orange', accepted:'badge-green', delivering:'badge-blue', completed:'badge-gray', cancelled:'badge-red'};
+    document.getElementById('taskTable').innerHTML = (r.data.list||[]).map(t =>
+      `<tr><td>${t.id}</td><td>${typeMap[t.type]}</td><td>${t.user_name||'-'}</td><td>${t.runner_name||'-'}</td>
+      <td>¥${t.reward}</td><td><span class="badge ${badgeMap[t.status]}">${statusMap[t.status]}</span></td>
+      <td>${(t.created_at||'').slice(0,16)}</td>
+      <td>${t.status!=='completed'&&t.status!=='cancelled'?`<button class="btn btn-sm btn-danger" onclick="cancelTask(${t.id})">取消</button>`:'-'}</td></tr>`
+    ).join('');
+  });
+}
+
+function cancelTask(id) {
+  if (confirm('确定取消该任务？')) request('/admin/tasks/'+id+'/cancel', 'PUT').then(()=>loadTasks());
+}
+
+function loadMarket() {
+  const kw = document.getElementById('marketSearch')?.value || '';
+  request('/admin/market?keyword='+encodeURIComponent(kw)).then(r => {
+    if (r.code!==200) return;
+    const statusMap = {on_sale:'在售', sold:'已售', off_shelf:'已下架', pending:'审核中'};
+    const badgeMap = {on_sale:'badge-green', sold:'badge-gray', off_shelf:'badge-red', pending:'badge-orange'};
+    document.getElementById('marketTable').innerHTML = (r.data||[]).map(g =>
+      `<tr><td>${g.id}</td><td>${g.title}</td><td>${g.nickname||'-'}</td><td>¥${g.price}</td><td>${g.view_count}</td>
+      <td><span class="badge ${badgeMap[g.status]}">${statusMap[g.status]}</span></td>
+      <td>${g.status==='on_sale'?`<button class="btn btn-sm btn-danger" onclick="marketAction(${g.id},'off_shelf')">下架</button>`:
+      g.status==='off_shelf'?`<button class="btn btn-sm btn-primary" onclick="marketAction(${g.id},'on_sale')">上架</button>`:'-'}</td></tr>`
+    ).join('');
+  });
+}
+
+function marketAction(id, status) {
+  request('/admin/market/'+id+'/status', 'PUT', {status}).then(()=>loadMarket());
+}
+
+function loadBanners() {
+  request('/admin/banners').then(r => {
+    if (r.code!==200) return;
+    document.getElementById('bannerTable').innerHTML = (r.data||[]).map(b =>
+      `<tr><td>${b.id}</td><td>${b.title||'-'}</td><td><img src="${b.image_url}" style="height:40px;border-radius:4px"></td>
+      <td>${b.sort_order}</td><td><span class="badge ${b.status?'badge-green':'badge-gray'}">${b.status?'显示':'隐藏'}</span></td>
+      <td><button class="btn btn-sm ${b.status?'btn-outline':'btn-primary'}" onclick="toggleBanner(${b.id},${b.status})">${b.status?'隐藏':'显示'}</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteBanner(${b.id})" style="margin-left:4px">删除</button></td></tr>`
+    ).join('');
+  });
+}
+
+function showBannerModal() {
+  document.getElementById('modalBox').innerHTML = `<h3>添加轮播</h3>
+    <div class="form-group"><label>标题</label><input id="bTitle" placeholder="轮播标题"></div>
+    <div class="form-group"><label>图片URL</label><input id="bImg" placeholder="图片地址"></div>
+    <div class="form-group"><label>链接</label><input id="bLink" placeholder="跳转链接"></div>
+    <div class="form-group"><label>排序</label><input id="bSort" type="number" value="0"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveBanner()">保存</button></div>`;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function saveBanner() {
+  request('/admin/banners', 'POST', {
+    title: document.getElementById('bTitle').value,
+    image_url: document.getElementById('bImg').value,
+    link: document.getElementById('bLink').value,
+    sort_order: parseInt(document.getElementById('bSort').value)||0
+  }).then(()=>{ closeModal(); loadBanners(); });
+}
+
+function toggleBanner(id, status) {
+  request('/admin/banners/'+id, 'PUT', {status: status?0:1}).then(()=>loadBanners());
+}
+
+function deleteBanner(id) {
+  if (confirm('确定删除？')) request('/admin/banners/'+id, 'DELETE').then(()=>loadBanners());
+}
+
+function loadAnnouncements() {
+  request('/admin/announcements').then(r => {
+    if (r.code!==200) return;
+    document.getElementById('announcementTable').innerHTML = (r.data||[]).map(a =>
+      `<tr><td>${a.id}</td><td>${a.title}</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.content||''}</td>
+      <td>${(a.created_at||'').slice(0,16)}</td>
+      <td><button class="btn btn-sm btn-danger" onclick="deleteAnnouncement(${a.id})">删除</button></td></tr>`
+    ).join('');
+  });
+}
+
+function showAnnouncementModal() {
+  document.getElementById('modalBox').innerHTML = `<h3>发布公告</h3>
+    <div class="form-group"><label>标题</label><input id="aTitle" placeholder="公告标题"></div>
+    <div class="form-group"><label>内容</label><textarea id="aContent" placeholder="公告内容"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveAnnouncement()">发布</button></div>`;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function saveAnnouncement() {
+  request('/admin/announcements', 'POST', {
+    title: document.getElementById('aTitle').value,
+    content: document.getElementById('aContent').value
+  }).then(()=>{ closeModal(); loadAnnouncements(); });
+}
+
+function deleteAnnouncement(id) {
+  if (confirm('确定删除？')) request('/admin/announcements/'+id, 'DELETE').then(()=>loadAnnouncements());
+}
+
+function loadSettings() {
+  request('/admin/settings').then(r => {
+    if (r.code!==200) return;
+    document.getElementById('settingsForm').innerHTML = '<div class="card-title">系统设置</div>' +
+      (r.data||[]).map(s => `<div class="form-group" style="margin-bottom:16px">
+        <label style="display:block;font-size:13px;color:var(--text-sub);margin-bottom:4px">${s.description||s.setting_key}</label>
+        <input style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px" data-key="${s.setting_key}" value="${s.setting_value||''}">
+      </div>`).join('') +
+      '<button class="btn btn-primary" onclick="saveSettings()">保存设置</button>';
+  });
+}
+
+function saveSettings() {
+  const inputs = document.querySelectorAll('#settingsForm input[data-key]');
+  const settings = [];
+  inputs.forEach(inp => settings.push({key: inp.dataset.key, value: inp.value}));
+  request('/admin/settings', 'PUT', {settings}).then(()=>alert('保存成功'));
+}
+
+function loadLogs() {
+  request('/admin/logs').then(r => {
+    if (r.code!==200) return;
+    document.getElementById('logTable').innerHTML = (r.data||[]).map(l =>
+      `<tr><td>${l.id}</td><td>${l.nickname||'-'}</td><td>${l.action}</td><td>${l.detail||'-'}</td><td>${(l.created_at||'').slice(0,16)}</td></tr>`
+    ).join('');
+  });
+}
+
+function loadCategories() {
+  const type = document.getElementById('cateTypeFilter')?.value || '';
+  request('/admin/categories').then(r => {
+    if (r.code!==200) return;
+    const typeMap = {service:'服务分类', goods:'商品分类', second_hand:'二手分类'};
+    const list = type ? (r.data||[]).filter(c => c.type===type) : (r.data||[]);
+    document.getElementById('categoryTable').innerHTML = list.map(c =>
+      `<tr><td>${c.id}</td><td>${c.name}</td>
+      <td><span class="badge badge-blue">${typeMap[c.type]||c.type}</span></td>
+      <td>${c.sort_order}</td>
+      <td><span class="badge ${c.status?'badge-green':'badge-gray'}">${c.status?'启用':'禁用'}</span></td>
+      <td><button class="btn btn-sm ${c.status?'btn-danger':'btn-primary'}" onclick="toggleCategory(${c.id},${c.status})">${c.status?'禁用':'启用'}</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteCategory(${c.id})" style="margin-left:4px">删除</button></td></tr>`
+    ).join('');
+  });
+}
+
+function showCategoryModal() {
+  document.getElementById('modalBox').innerHTML = `<h3>添加分类</h3>
+    <div class="form-group"><label>名称</label><input id="cateName" placeholder="分类名称"></div>
+    <div class="form-group"><label>类型</label><select id="cateType" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px">
+      <option value="service">服务分类</option><option value="second_hand">二手分类</option><option value="goods">商品分类</option>
+    </select></div>
+    <div class="form-group"><label>排序</label><input id="cateSort" type="number" value="0"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveCategory()">保存</button></div>`;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function saveCategory() {
+  request('/admin/categories', 'POST', {
+    name: document.getElementById('cateName').value,
+    type: document.getElementById('cateType').value,
+    sort_order: parseInt(document.getElementById('cateSort').value)||0
+  }).then(()=>{ closeModal(); loadCategories(); });
+}
+
+function toggleCategory(id, status) {
+  request('/admin/categories/'+id, 'PUT', {status: status?0:1}).then(()=>loadCategories());
+}
+
+function deleteCategory(id) {
+  if (confirm('确定删除该分类？')) request('/admin/categories/'+id, 'DELETE').then(()=>loadCategories());
+}
+
+function loadOrders() {
+  const type = document.getElementById('orderTypeFilter')?.value || '';
+  request('/admin/orders' + (type ? '?type='+type : '')).then(r => {
+    if (r.code!==200) return;
+    const typeMap = {express_pickup:'取快递', express_send:'寄快递', help_buy:'帮买'};
+    const statusBadge = (s, ot) => {
+      if (ot==='task') {
+        const m = {pending:'badge-orange',accepted:'badge-blue',delivering:'badge-blue',completed:'badge-green',cancelled:'badge-red'};
+        const n = {pending:'待接单',accepted:'已接单',delivering:'配送中',completed:'已完成',cancelled:'已取消'};
+        return `<span class="badge ${m[s]||'badge-gray'}">${n[s]||s}</span>`;
+      }
+      const m = {pending:'badge-orange',preparing:'badge-blue',ready:'badge-orange',completed:'badge-green',cancelled:'badge-red'};
+      const n = {pending:'待处理',preparing:'备货中',ready:'待取货',completed:'已完成',cancelled:'已取消'};
+      return `<span class="badge ${m[s]||'badge-gray'}">${n[s]||s}</span>`;
+    };
+    const html = (r.data.list||[]).map(o => {
+      if (o.order_type==='task') {
+        return `<tr><td>T-${o.id}</td><td><span class="badge badge-green">跑腿</span></td><td>${o.user_name||'-'}</td>
+          <td>${typeMap[o.type]||o.type}</td><td>1</td><td>¥${o.amount}</td>
+          <td>${statusBadge(o.status,'task')}</td><td>${(o.created_at||'').slice(0,16)}</td></tr>`;
+      }
+      return `<tr><td>M-${o.id}</td><td><span class="badge badge-blue">商家</span></td><td>${o.user_name||'-'}</td>
+        <td>${o.product_name||'-'}</td><td>${o.quantity||1}</td><td>¥${o.amount}</td>
+        <td>${statusBadge(o.status,'merchant')}</td><td>${(o.created_at||'').slice(0,16)}</td></tr>`;
+    }).join('');
+    document.getElementById('orderTable').innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:#999">暂无订单记录</td></tr>';
+  });
+}
+
+function closeModal(e) {
+  if (!e || e.target.id === 'modalOverlay') document.getElementById('modalOverlay').classList.add('hidden');
+}
+</script>
+</body>
+</html>

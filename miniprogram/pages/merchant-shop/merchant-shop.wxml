@@ -1,0 +1,31 @@
+<view class="container" wx:if="{{shop}}">
+  <view class="shop-header card">
+    <text class="shop-name">{{shop.shop_name}}</text>
+    <view class="shop-meta">
+      <text class="shop-category">{{shop.category}}</text>
+      <text class="shop-rating">{{shop.rating}} 分</text>
+    </view>
+    <text class="shop-hours" wx:if="{{shop.business_hours}}">营业时间：{{shop.business_hours}}</text>
+    <text class="shop-announce" wx:if="{{shop.announcement}}">{{shop.announcement}}</text>
+  </view>
+
+  <view class="section-title">全部商品</view>
+
+  <view class="product-grid">
+    <view class="product-card card" wx:for="{{products}}" wx:key="id" bindtap="goProduct" data-id="{{item.id}}">
+      <image class="product-img" src="{{item.images[0] || '/images/icons/pickup.png'}}" mode="aspectFill"/>
+      <view class="product-info">
+        <text class="product-name">{{item.name}}</text>
+        <view class="flex flex-between flex-center">
+          <text class="price"><text class="price-unit">¥</text>{{item.price}}</text>
+          <text class="product-sales">已售 {{item.sales}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{products.length === 0}}">
+    <image class="icon-lg" src="/images/icons/pickup.png" mode="aspectFit"/>
+    <text>暂无商品</text>
+  </view>
+</view>

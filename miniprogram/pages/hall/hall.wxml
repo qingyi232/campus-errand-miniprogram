@@ -1,0 +1,71 @@
+<view class="hall-page">
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item {{currentType === '' ? 'active' : ''}}" bindtap="filterType" data-type="">全部</view>
+    <view class="filter-item {{currentType === 'express_pickup' ? 'active' : ''}}" bindtap="filterType" data-type="express_pickup">取快递</view>
+    <view class="filter-item {{currentType === 'express_send' ? 'active' : ''}}" bindtap="filterType" data-type="express_send">寄快递</view>
+    <view class="filter-item {{currentType === 'help_buy' ? 'active' : ''}}" bindtap="filterType" data-type="help_buy">帮买</view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list" wx:if="{{tasks.length > 0}}">
+    <view class="task-card card" wx:for="{{tasks}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="task-header flex flex-between flex-center">
+        <view class="flex flex-center">
+          <view class="type-badge {{item.type === 'express_pickup' ? 'badge-green' : item.type === 'express_send' ? 'badge-blue' : 'badge-orange'}}">
+            <image class="icon-xs" src="/images/icons/{{item.type === 'express_pickup' ? 'pickup' : item.type === 'express_send' ? 'send' : 'buy'}}.png" mode="aspectFit" style="vertical-align:middle;margin-right:4rpx"/>
+            {{item.type === 'express_pickup' ? '取快递' : item.type === 'express_send' ? '寄快递' : '帮买'}}
+          </view>
+        </view>
+        <view class="reward-tag">
+          <text class="price-unit">赏金 ¥</text>
+          <text class="price reward-num">{{item.reward}}</text>
+        </view>
+      </view>
+
+      <view class="task-content">
+        <view class="info-row" wx:if="{{item.type === 'express_pickup'}}">
+          <text class="info-label">快递点</text>
+          <text class="info-value">{{item.express_point}}</text>
+        </view>
+        <view class="info-row" wx:if="{{item.type === 'express_pickup'}}">
+          <text class="info-label">送至</text>
+          <text class="info-value">{{item.delivery_address}}</text>
+        </view>
+        <view class="info-row" wx:if="{{item.type === 'express_send'}}">
+          <text class="info-label">寄出</text>
+          <text class="info-value">{{item.sender_address}}</text>
+        </view>
+        <view class="info-row" wx:if="{{item.type === 'help_buy'}}">
+          <text class="info-label">购买</text>
+          <text class="info-value">{{item.goods_desc}}</text>
+        </view>
+        <view class="info-row" wx:if="{{item.remark}}">
+          <text class="info-label">备注</text>
+          <text class="info-value remark-text">{{item.remark}}</text>
+        </view>
+      </view>
+
+      <view class="task-footer flex flex-between flex-center">
+        <view class="publisher flex flex-center">
+          <image class="avatar-sm" src="{{item.avatar}}" mode="aspectFill"/>
+          <text class="pub-name">{{item.nickname}}</text>
+          <text class="pub-campus">{{item.campus}}</text>
+        </view>
+        <text class="pub-time">{{item.timeAgo}}</text>
+      </view>
+
+      <view class="accept-btn" catchtap="acceptTask" data-id="{{item.id}}">立即接单</view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && tasks.length === 0}}">
+    <image class="icon-lg" src="/images/icons/list.png" mode="aspectFit"/>
+    <text>暂无可接任务</text>
+    <text class="empty-sub">稍后再来看看吧~</text>
+  </view>
+
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

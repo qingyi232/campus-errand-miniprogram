@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{status === '' ? 'active' : ''}}" bindtap="changeStatus" data-s="">全部</view>
+    <view class="filter-item {{status === 'pending' ? 'active' : ''}}" bindtap="changeStatus" data-s="pending">待处理</view>
+    <view class="filter-item {{status === 'preparing' ? 'active' : ''}}" bindtap="changeStatus" data-s="preparing">备货中</view>
+    <view class="filter-item {{status === 'ready' ? 'active' : ''}}" bindtap="changeStatus" data-s="ready">待取货</view>
+    <view class="filter-item {{status === 'completed' ? 'active' : ''}}" bindtap="changeStatus" data-s="completed">已完成</view>
+  </view>
+
+  <view class="order-item card" wx:for="{{orders}}" wx:key="id">
+    <view class="flex flex-between flex-center" style="margin-bottom:12rpx">
+      <text class="order-no">订单 #{{item.id}}</text>
+      <view class="tag {{item.status === 'pending' ? 'tag-orange' : item.status === 'preparing' ? 'tag-blue' : item.status === 'ready' ? 'tag-green' : 'tag-gray'}}">
+        {{item.status === 'pending' ? '待处理' : item.status === 'preparing' ? '备货中' : item.status === 'ready' ? '待取货' : item.status === 'completed' ? '已完成' : '已取消'}}
+      </view>
+    </view>
+    <text class="order-product">{{item.product_name}} × {{item.quantity}}</text>
+    <view class="flex flex-between flex-center" style="margin-top:8rpx">
+      <text class="order-amount price"><text class="price-unit">¥</text>{{item.total_amount}}</text>
+      <text class="order-user">{{item.nickname}}</text>
+    </view>
+    <text class="order-time">{{item.created_at}}</text>
+
+    <view class="order-actions flex" style="gap:12rpx;margin-top:16rpx;justify-content:flex-end;" wx:if="{{item.status !== 'completed' && item.status !== 'cancelled'}}">
+      <text class="action-btn" wx:if="{{item.status === 'pending'}}" bindtap="updateStatus" data-id="{{item.id}}" data-s="preparing">开始备货</text>
+      <text class="action-btn" wx:if="{{item.status === 'preparing'}}" bindtap="updateStatus" data-id="{{item.id}}" data-s="ready">备货完成</text>
+      <text class="action-btn" wx:if="{{item.status === 'ready'}}" bindtap="updateStatus" data-id="{{item.id}}" data-s="completed">确认完成</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{orders.length === 0}}">
+    <image class="icon-lg" src="/images/icons/list.png" mode="aspectFit"/>
+    <text>暂无订单</text>
+  </view>
+</view>

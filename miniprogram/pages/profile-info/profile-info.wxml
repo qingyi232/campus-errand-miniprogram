@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="card">
+    <view class="avatar-section" bindtap="changeAvatar">
+      <image class="edit-avatar" src="{{form.avatar || defaultAvatar}}" mode="aspectFill"/>
+      <text class="avatar-tip">点击更换头像</text>
+    </view>
+    <view class="form-group">
+      <text class="form-label">昵称</text>
+      <input class="form-input" placeholder="请输入昵称" value="{{form.nickname}}" bindinput="onInput" data-field="nickname"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">校区</text>
+      <picker range="{{campusList}}" bindchange="onCampusChange">
+        <view class="form-input" style="display:flex;align-items:center;justify-content:space-between;line-height:88rpx;">
+          <text>{{form.campus || '请选择'}}</text><text style="color:#B0B3BE">▾</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">宿舍楼</text>
+      <input class="form-input" placeholder="如：梅园1号楼" value="{{form.dormitory}}" bindinput="onInput" data-field="dormitory"/>
+    </view>
+  </view>
+  <view class="btn-primary" style="margin-top:40rpx" bindtap="save">保存</view>
+</view>

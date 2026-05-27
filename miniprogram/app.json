@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/hall/hall",
+    "pages/market/market",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/task-publish/task-publish",
+    "pages/express-pickup/express-pickup",
+    "pages/express-send/express-send",
+    "pages/help-buy/help-buy",
+    "pages/task-detail/task-detail",
+    "pages/market-detail/market-detail",
+    "pages/market-publish/market-publish",
+    "pages/profile-info/profile-info",
+    "pages/my-tasks/my-tasks",
+    "pages/my-orders/my-orders",
+    "pages/wallet/wallet",
+    "pages/address/address",
+    "pages/address-edit/address-edit",
+    "pages/messages/messages",
+    "pages/review/review",
+    "pages/merchant-apply/merchant-apply",
+    "pages/merchant-index/merchant-index",
+    "pages/merchant-products/merchant-products",
+    "pages/merchant-product-edit/merchant-product-edit",
+    "pages/merchant-orders/merchant-orders",
+    "pages/merchant-shop/merchant-shop",
+    "pages/product-detail/product-detail",
+    "pages/order-confirm/order-confirm",
+    "pages/order-detail/order-detail",
+    "pages/shop-list/shop-list",
+    "pages/merchant-stats/merchant-stats",
+    "pages/merchant-messages/merchant-messages",
+    "pages/my-goods/my-goods",
+    "pages/merchant-reviews/merchant-reviews"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "校园跑腿",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F9FB",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#8F92A1",
+    "selectedColor": "#36B37E",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/hall/hall",
+        "text": "接单大厅",
+        "iconPath": "images/tab-hall.png",
+        "selectedIconPath": "images/tab-hall-active.png"
+      },
+      {
+        "pagePath": "pages/market/market",
+        "text": "二手市场",
+        "iconPath": "images/tab-market.png",
+        "selectedIconPath": "images/tab-market-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于定位您的位置，方便选择快递点和配送地址"
+    }
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ]
+}

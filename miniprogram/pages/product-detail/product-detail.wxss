@@ -1,0 +1,22 @@
+.img-swiper { height: 560rpx; }
+.detail-img { width: 100%; height: 560rpx; }
+.price-row { margin-bottom: 16rpx; }
+.detail-price { font-size: 48rpx; }
+.stock-tag { font-size: 24rpx; color: #8F92A1; background: #F4F5F7; padding: 6rpx 16rpx; border-radius: 16rpx; }
+.detail-title { font-size: 32rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 12rpx; }
+.detail-desc { font-size: 26rpx; color: #505F79; display: block; line-height: 1.6; }
+.card-title { font-size: 28rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 16rpx; }
+.shop-row { display: flex; align-items: center; justify-content: space-between; }
+.shop-label { font-size: 28rpx; font-weight: 600; color: #172B4D; }
+.shop-rating { font-size: 24rpx; color: #FF9500; }
+
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20rpx 32rpx; padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff; box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.06);
+}
+.qty-control { display: flex; align-items: center; gap: 16rpx; }
+.qty-btn { width: 56rpx; height: 56rpx; border-radius: 50%; background: #F4F5F7; display: flex; align-items: center; justify-content: center; font-size: 32rpx; color: #505F79; text-align: center; line-height: 56rpx; }
+.qty-num { font-size: 30rpx; font-weight: 700; min-width: 40rpx; text-align: center; }
+.buy-btn { background: #36B37E; color: #fff; padding: 20rpx 48rpx; border-radius: 40rpx; font-size: 30rpx; font-weight: 700; }

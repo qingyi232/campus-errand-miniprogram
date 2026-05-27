@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="top-action" wx:if="{{messages.length > 0}}">
+    <text class="read-all" bindtap="readAll">全部标为已读</text>
+  </view>
+
+  <view class="msg-item card {{item.is_read ? '' : 'unread'}}" wx:for="{{messages}}" wx:key="id" bindtap="readMsg" data-id="{{item.id}}" data-rid="{{item.related_id}}" data-type="{{item.type}}">
+    <view class="flex flex-between flex-center">
+      <view class="flex flex-center" style="gap:12rpx">
+        <image class="icon-sm" src="/images/icons/{{item.type === 'task' ? 'pickup' : item.type === 'order' ? 'list' : item.type === 'review' ? 'star' : 'announce'}}.png" mode="aspectFit"/>
+        <text class="msg-title">{{item.title}}</text>
+      </view>
+      <view class="unread-dot" wx:if="{{!item.is_read}}"></view>
+    </view>
+    <text class="msg-content">{{item.content}}</text>
+    <text class="msg-time">{{item.created_at}}</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{messages.length === 0}}">
+    <image class="icon-lg" src="/images/icons/bell.png" mode="aspectFit"/>
+    <text>暂无消息</text>
+  </view>
+</view>

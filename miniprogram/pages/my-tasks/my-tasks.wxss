@@ -1,0 +1,7 @@
+.filter-bar { display: flex; gap: 16rpx; margin-bottom: 20rpx; }
+.filter-item { padding: 12rpx 28rpx; border-radius: 28rpx; font-size: 26rpx; background: #fff; color: #505F79; }
+.filter-item.active { background: #36B37E; color: #fff; }
+.task-type { display: block; font-size: 28rpx; font-weight: 600; color: #172B4D; margin-top: 12rpx; }
+.task-time { display: block; font-size: 22rpx; color: #B0B3BE; margin-top: 8rpx; }
+.runner-info { gap: 8rpx; margin-top: 12rpx; padding-top: 12rpx; border-top: 1rpx solid #F4F5F7; }
+.runner-name { font-size: 24rpx; color: #505F79; }

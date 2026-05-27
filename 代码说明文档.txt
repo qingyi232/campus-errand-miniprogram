@@ -1,0 +1,425 @@
+========================================
+    校园跑腿小程序 — 代码说明文档
+========================================
+
+一、项目概述
+========================================
+
+项目名称：校园跑腿小程序
+技术栈：微信小程序（WXML/WXSS/JS）+ Node.js/Express + MySQL
+角色划分：用户端（小程序）、商家端（小程序）、管理员端（Web浏览器）
+
+功能模块：
+  1. 跑腿服务（取快递、寄快递、帮买服务）
+  2. 二手市场（发布/浏览/留言/联系卖家）
+  3. 商家入驻（商品管理、订单管理、数据统计、评价管理）
+  4. 钱包系统（余额充值、交易记录）
+  5. 地图定位（快递点/配送地址选择）
+  6. 评价系统（任务完成后互评、商家评分）
+  7. 管理后台（用户/商家/任务/订单/轮播/公告/分类/设置管理）
+
+
+二、项目目录结构
+========================================
+
+校园跑腿小程序/
+│
+├── miniprogram/                    ← 微信小程序前端
+│   ├── app.js                      ← 小程序入口，全局登录态管理
+│   ├── app.json                    ← 页面路由、TabBar、权限配置
+│   ├── app.wxss                    ← 全局样式（flex布局、卡片、按钮等）
+│   │
+│   ├── utils/
+│   │   ├── api.js                  ← 所有后端API封装（统一请求函数）
+│   │   ├── util.js                 ← 工具函数（状态名称映射、格式化等）
+│   │   └── config.js               ← 配置常量（服务器地址、默认图片等）
+│   │
+│   ├── images/
+│   │   ├── icons/                  ← PNG图标文件（取快递、寄快递、搜索等）
+│   │   └── tab-*.png               ← TabBar图标（首页、大厅、市场、我的）
+│   │
+│   └── pages/                      ← 所有页面（共30+个页面）
+│       ├── index/                  ← 首页（轮播、服务入口、热门任务）
+│       ├── hall/                   ← 任务大厅（浏览/筛选/接单）
+│       ├── market/                 ← 二手市场（浏览/搜索/分类筛选）
+│       ├── profile/                ← 个人中心（用户信息、菜单入口）
+│       ├── login/                  ← 登录页
+│       ├── task-publish/           ← 发布任务选择页
+│       ├── express-pickup/         ← 发布取快递任务
+│       ├── express-send/           ← 发布寄快递任务
+│       ├── help-buy/               ← 发布帮买任务
+│       ├── task-detail/            ← 任务详情
+│       ├── market-detail/          ← 二手商品详情
+│       ├── market-publish/         ← 发布二手商品
+│       ├── my-tasks/               ← 我发布的任务
+│       ├── my-orders/              ← 我接的单
+│       ├── my-goods/               ← 我的二手商品
+│       ├── wallet/                 ← 钱包
+│       ├── address/                ← 地址管理
+│       ├── address-edit/           ← 编辑地址
+│       ├── messages/               ← 消息中心
+│       ├── review/                 ← 评价页面
+│       ├── profile-info/           ← 编辑个人信息
+│       ├── merchant-apply/         ← 商家入驻申请
+│       ├── merchant-index/         ← 商家管理首页
+│       ├── merchant-products/      ← 商品管理列表
+│       ├── merchant-product-edit/  ← 编辑/添加商品
+│       ├── merchant-orders/        ← 商家订单管理
+│       ├── merchant-stats/         ← 商家数据统计
+│       ├── merchant-messages/      ← 商家消息中心
+│       ├── merchant-reviews/       ← 商家评价查看
+│       └── map-picker/             ← 地图定位选择
+│
+├── server/                         ← Node.js 后端服务
+│   ├── app.js                      ← Express服务器入口
+│   ├── init-db.js                  ← 数据库初始化脚本
+│   ├── package.json                ← 依赖配置
+│   ├── config/
+│   │   └── db.js                   ← MySQL连接池配置
+│   ├── middleware/
+│   │   └── auth.js                 ← JWT认证中间件
+│   ├── routes/
+│   │   ├── user.js                 ← 用户API
+│   │   ├── task.js                 ← 任务API
+│   │   ├── market.js               ← 二手市场API
+│   │   ├── merchant.js             ← 商家端API
+│   │   ├── admin.js                ← 管理后台API
+│   │   └── common.js               ← 公共API
+│   └── public/images/              ← 静态图片资源
+│
+└── admin/                          ← 管理后台
+    └── index.html                  ← 管理后台单页应用
+
+
+三、数据库设计
+========================================
+
+数据库名：campus_errand
+字符集：utf8mb4
+共 14 张数据表：
+
+1. users — 用户表
+   字段：id, openid, phone, password, nickname, avatar, campus,
+         dormitory, role(user/merchant/admin), balance,
+         credit_score, status, created_at, updated_at
+   说明：所有角色共用一张表，通过 role 字段区分
+
+2. merchants — 商家表
+   字段：id, user_id(关联users), shop_name, category, contact,
+         qualification, announcement, business_hours,
+         delivery_range, rating, status(pending/approved/rejected/disabled)
+   说明：商家入驻申请后由管理员审核通过才能经营
+
+3. merchant_products — 商家商品表
+   字段：id, merchant_id, name, description, price, stock,
+         category, images(JSON数组), sales, status(1上架/0下架)
+   说明：images 字段存储 JSON 格式的图片URL数组
+
+4. tasks — 跑腿任务表（核心业务表）
+   字段：id, user_id(发布者), runner_id(接单者),
+         type(express_pickup/express_send/help_buy),
+         status(pending/accepted/delivering/completed/cancelled),
+         reward, express_point, pickup_code, sender_address,
+         receiver_name, receiver_phone, receiver_address,
+         goods_desc, buy_location, budget, delivery_address,
+         remark, created_at
+   说明：支持三种任务类型，状态流转见第八节
+
+5. second_hand_goods — 二手商品表
+   字段：id, user_id, title, description, price, original_price,
+         category, images(JSON数组), contact,
+         status(on_sale/off_shelf/sold), view_count, created_at
+   说明：用户发布的二手商品，通过留言联系卖家线下交易
+
+6. goods_comments — 二手商品留言表
+   字段：id, goods_id, user_id, content, created_at
+   说明：二手商品详情页的留言互动功能
+
+7. reviews — 评价表
+   字段：id, task_id, reviewer_id, reviewee_id, merchant_id,
+         rating(1-5), content, created_at
+   说明：任务完成后发布者和跑腿员可互评
+
+8. orders — 订单表
+   字段：id, task_id, merchant_id, user_id, product_id,
+         product_name, quantity, total_amount,
+         status(pending/preparing/ready/completed/cancelled),
+         created_at, updated_at
+   说明：商家商品订单和跑腿任务关联订单
+
+9. addresses — 地址表
+   字段：id, user_id, name, phone, campus, building, room,
+         is_default, latitude, longitude
+   说明：用户收货地址管理，支持经纬度定位
+
+10. wallet_records — 钱包记录表
+    字段：id, user_id, type(recharge/reward/payment/refund),
+          amount, balance_after, description, related_id
+    说明：所有资金变动记录（充值、奖励、支付、退款）
+
+11. messages — 消息表
+    字段：id, user_id, type(task/order/review/system),
+          title, content, related_id, is_read, created_at
+    说明：站内消息通知系统
+
+12. banners — 轮播图表
+    字段：id, title, image_url, link, sort_order, status
+    说明：首页轮播图，管理员可增删改查
+
+13. announcements — 公告表
+    字段：id, title, content, status, created_at
+    说明：平台公告，首页滚动显示
+
+14. categories — 分类表
+    字段：id, name, icon, type(task/market/merchant),
+          sort_order, status
+    说明：任务/市场/商家的分类管理
+
+
+四、后端 API 接口说明
+========================================
+
+基础地址：http://localhost:3000/api
+认证方式：JWT Token（请求头 Authorization: Bearer <token>）
+
+--- 4.1 用户模块 /api/user ---
+
+POST /login              微信登录（模拟，传code/nickName/avatarUrl）
+POST /login/password     账号密码登录（传username+password）
+POST /bindPhone          绑定手机号（需认证）
+GET  /info               获取当前用户信息（需认证）
+PUT  /info               更新用户信息（需认证）
+GET  /address             获取地址列表（需认证）
+POST /address             添加地址（需认证）
+PUT  /address/:id         更新地址（需认证）
+DELETE /address/:id       删除地址（需认证）
+GET  /messages            获取消息列表（需认证）
+PUT  /messages/:id/read   标记消息已读（需认证）
+PUT  /messages/readAll    全部标记已读（需认证）
+GET  /messages/unread     获取未读消息数（需认证）
+GET  /wallet              获取钱包余额（需认证）
+GET  /wallet/records      获取交易记录（需认证）
+POST /wallet/recharge     钱包充值（需认证，传amount）
+
+--- 4.2 任务模块 /api/task ---
+
+POST /                   发布任务（需认证）
+GET  /hall               任务大厅列表（分页，可按type筛选）
+GET  /:id                任务详情（含评价列表）
+POST /:id/accept         接单（需认证）
+POST /:id/delivering     开始配送（需认证，仅接单者）
+POST /:id/complete       确认完成（需认证，仅发布者）
+POST /:id/cancel         取消任务（需认证）
+POST /:id/review         评价任务（需认证，传rating/content）
+GET  /my/published       我发布的任务（需认证，可按status筛选）
+GET  /my/accepted        我接的单（需认证，可按status筛选）
+
+--- 4.3 二手市场模块 /api/market ---
+
+GET  /                   商品列表（分页，可按category/keyword/sort筛选）
+POST /                   发布商品（需认证）
+GET  /:id                商品详情（含留言列表，自动增加浏览量）
+PUT  /:id                更新商品（需认证，仅发布者）
+DELETE /:id              删除商品（需认证，仅发布者）
+GET  /my/list            我的商品列表（需认证）
+POST /:id/comment        留言（需认证，传content）
+
+--- 4.4 商家模块 /api/merchant ---
+
+POST /apply              商家入驻申请（需认证）
+GET  /info               获取商家信息（需认证）
+PUT  /info               更新商家信息（需认证）
+GET  /products           商家商品列表（需认证，可按status筛选）
+POST /products           添加商品（需认证）
+PUT  /products/:id       更新商品（需认证）
+DELETE /products/:id     删除商品（需认证）
+PUT  /products/:id/status  上架/下架商品（需认证）
+GET  /orders             商家订单列表（需认证，可按status筛选）
+PUT  /orders/:id/status  更新订单状态（需认证）
+GET  /stats              商家数据统计（需认证）
+GET  /messages           商家消息列表（需认证）
+GET  /reviews            商家评价列表（需认证）
+
+--- 4.5 管理后台模块 /api/admin（需管理员权限）---
+
+GET  /users              用户列表（分页/搜索/按状态筛选）
+PUT  /users/:id/status   启用/禁用用户
+GET  /merchants          商家列表（按状态筛选）
+PUT  /merchants/:id/audit  审核商家（通过/拒绝）
+PUT  /merchants/:id/status 商家状态变更（禁用/启用）
+GET  /tasks              任务列表（分页/按状态筛选）
+PUT  /tasks/:id/cancel   取消任务
+GET  /market             二手商品列表
+PUT  /market/:id/status  上架/下架商品
+GET  /banners            轮播图列表
+POST /banners            添加轮播图
+PUT  /banners/:id        更新轮播图（含显示/隐藏切换）
+DELETE /banners/:id      删除轮播图
+GET  /announcements      公告列表
+POST /announcements      添加公告
+DELETE /announcements/:id 删除公告
+GET  /categories         分类列表
+POST /categories         添加分类
+PUT  /categories/:id     更新/启用/禁用分类
+DELETE /categories/:id   删除分类
+GET  /orders             订单流水（分页/按状态筛选）
+GET  /stats              数据总览统计
+GET  /settings           获取系统设置
+PUT  /settings           更新系统设置
+GET  /logs               操作日志
+
+--- 4.6 公共模块 /api/common ---
+
+GET  /banners            获取轮播图（仅状态为1的）
+GET  /announcements      获取公告（仅状态为1的）
+GET  /categories         获取分类（可按type筛选）
+GET  /hot-tasks          获取热门任务
+GET  /recommend-goods    获取推荐二手商品
+POST /upload             文件上传（模拟）
+
+
+五、前端核心代码说明
+========================================
+
+5.1 utils/api.js — API 封装层
+    封装了统一的 request() 函数，自动处理：
+    - 请求地址拼接（BASE_URL + path）
+    - JWT Token 自动附加到请求头
+    - 统一错误处理和 401 自动跳转登录
+    所有页面通过 const api = require('../../utils/api') 调用
+
+5.2 utils/config.js — 配置文件
+    定义 BASE_URL（后端地址）、DEFAULT_IMG（默认图片）等常量
+    修改后端地址只需改这一个文件
+
+5.3 utils/util.js — 工具函数
+    getTaskStatusName()  — 任务状态中文名映射
+    getTaskTypeName()    — 任务类型中文名映射
+    getTaskStatusColor() — 任务状态颜色映射
+
+5.4 app.js — 小程序入口
+    onLaunch 时检查本地存储的登录态（token + userInfo）
+    globalData 存储全局用户信息
+
+5.5 页面统一开发模式
+    每个页面由 4 个文件组成：
+    - xxx.wxml  — 页面结构（类似HTML）
+    - xxx.wxss  — 页面样式（类似CSS）
+    - xxx.js    — 页面逻辑（数据加载、事件处理）
+    - xxx.json  — 页面配置（导航栏标题等）
+
+    生命周期模式：
+    onLoad()  → 调用 loadXxx() 加载初始数据
+    onShow()  → 部分页面在此刷新数据（如从编辑页返回）
+    onPullDownRefresh() → 下拉刷新
+    onReachBottom()     → 触底加载更多（分页列表）
+
+
+六、管理后台代码说明
+========================================
+
+文件：admin/index.html（纯HTML单页应用，无需构建工具）
+
+页面结构：
+  - 登录页（#loginPage）：账号密码登录，token存localStorage
+  - 主界面（#mainPage）：左侧导航栏 + 右侧内容区
+  - 11个Tab页面：dashboard / users / merchants / tasks / market /
+    banners / announcements / categories / orders / settings / logs
+  - 弹窗（.modal）：添加轮播图、添加公告、添加分类
+
+核心JS函数：
+  request(url, method, body)  — 统一API请求（自动带token）
+  switchTab(tab, el)          — 切换Tab并加载对应数据
+  loadDashboard()             — 加载数据总览统计
+  loadUsers() / toggleUser()  — 用户管理 / 启用禁用
+  loadMerchants() / auditMerchant() — 商家管理 / 审核
+  loadTasks() / cancelTask()  — 任务管理 / 取消
+  loadMarket() / marketAction() — 二手市场 / 上下架
+  loadBanners() / toggleBanner() / deleteBanner() — 轮播管理
+  loadAnnouncements() / deleteAnnouncement() — 公告管理
+  loadCategories() / toggleCategory() / deleteCategory() — 分类管理
+  loadOrders()                — 订单流水
+  loadSettings() / saveSettings() — 系统设置
+
+
+七、认证与安全机制
+========================================
+
+1. JWT Token 认证
+   - 登录成功后服务端签发 JWT Token（有效期7天）
+   - 前端存储在 wx.setStorageSync('token')
+   - 每次请求自动附加到 Authorization 请求头
+   - 后端 authMiddleware 验证 Token 有效性
+   - Token 过期或无效返回 401，前端自动跳转登录页
+
+2. 管理员权限控制
+   - adminMiddleware 检查 user.role === 'admin'
+   - 非管理员访问 /api/admin/* 返回 403
+
+3. 数据权限
+   - 用户只能操作自己的数据（任务/商品/地址/钱包）
+   - 商家只能管理自己店铺的商品和订单
+   - 管理员可操作所有数据
+
+
+八、关键业务流程
+========================================
+
+8.1 跑腿任务流程
+    用户A发布任务 → 任务出现在大厅（pending）
+    → 用户B接单（accepted）→ 用户B开始配送（delivering）
+    → 用户A确认完成（completed）→ 奖励转入用户B钱包
+    → 双方可互评
+    任何阶段可取消（cancelled）
+
+8.2 任务状态流转
+    pending（待接单）→ accepted（已接单）→ delivering（配送中）
+    → completed（已完成）
+    可随时 → cancelled（已取消）
+
+8.3 二手商品流程
+    用户发布商品 → 商品出现在市场（on_sale）
+    → 其他用户浏览/留言 → 线下联系交易
+    → 卖家手动下架（off_shelf）或标记已售（sold）
+
+8.4 商家入驻流程
+    用户提交入驻申请（pending）→ 管理员审核
+    → 通过（approved）：用户角色变为merchant，可管理商品
+    → 拒绝（rejected）：可重新申请
+
+8.5 商家订单流程
+    用户下单 → 商家确认（confirmed）→ 配送中（delivering）
+    → 已完成（completed）
+    可取消（cancelled）
+
+
+九、依赖包说明
+========================================
+
+后端依赖（server/package.json）：
+  express@4.18     — Web框架，处理HTTP请求路由
+  mysql2@3.6       — MySQL数据库驱动（Promise版本）
+  jsonwebtoken@9.0 — JWT Token 生成与验证
+  cors@2.8         — 跨域资源共享支持
+  body-parser@1.20 — HTTP请求体解析（JSON/URL编码）
+  multer@1.4       — 文件上传中间件
+  canvas@3.2       — 图片生成（用于生成图标，可选依赖）
+
+前端无额外依赖，纯原生微信小程序开发（WXML + WXSS + JS）。
+
+
+十、测试账号
+========================================
+
+管理后台（浏览器访问 http://localhost:3000/admin/）：
+  账号：admin
+  密码：admin123
+
+小程序端（手机号 + 密码登录）：
+  13800001111 / 123456  — 李同学（普通用户）
+  13800002222 / 123456  — 王小明（普通用户）
+  13800003333 / 123456  — 张小红（普通用户）
+  13800004444 / 123456  — 赵同学（商家 - 校园零食铺）
+  13800005555 / 123456  — 刘小雨（商家 - 学霸文具店）
+  13800006666 / 123456  — 陈同学（普通用户）
+  13800007777 / 123456  — 孙小梅（普通用户）

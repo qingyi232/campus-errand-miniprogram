@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="stats-overview">
+    <view class="stat-card card">
+      <text class="stat-label">今日订单</text>
+      <text class="stat-value">{{stats.today.count || 0}}</text>
+      <text class="stat-sub">¥{{stats.today.amount || '0.00'}}</text>
+    </view>
+    <view class="stat-card card">
+      <text class="stat-label">本周订单</text>
+      <text class="stat-value">{{stats.week.count || 0}}</text>
+      <text class="stat-sub">¥{{stats.week.amount || '0.00'}}</text>
+    </view>
+    <view class="stat-card card">
+      <text class="stat-label">本月订单</text>
+      <text class="stat-value">{{stats.month.count || 0}}</text>
+      <text class="stat-sub">¥{{stats.month.amount || '0.00'}}</text>
+    </view>
+    <view class="stat-card card">
+      <text class="stat-label">累计订单</text>
+      <text class="stat-value">{{stats.total.count || 0}}</text>
+      <text class="stat-sub">¥{{stats.total.amount || '0.00'}}</text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{stats.hotProducts.length > 0}}">
+    <text class="card-title" style="display:block;font-size:30rpx;font-weight:700;margin-bottom:20rpx">热销商品</text>
+    <view class="hot-item" wx:for="{{stats.hotProducts}}" wx:key="id">
+      <text class="hot-rank">{{index + 1}}</text>
+      <text class="hot-name flex-1">{{item.name}}</text>
+      <text class="hot-sales">销量 {{item.sales}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="card-title" style="display:block;font-size:30rpx;font-weight:700;margin-bottom:20rpx">近14天趋势</text>
+    <view class="chart-area">
+      <view class="chart-bar" wx:for="{{chartData}}" wx:key="date" style="height: {{item.orders * chartScale + 16}}rpx">
+        <text class="chart-val" wx:if="{{item.orders > 0}}">{{item.orders}}</text>
+        <text class="chart-date">{{item.dateLabel}}</text>
+      </view>
+    </view>
+  </view>
+</view>

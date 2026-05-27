@@ -1,0 +1,15 @@
+<view class="container">
+  <view class="card">
+    <text class="card-title" style="display:block;font-size:30rpx;font-weight:700;margin-bottom:24rpx">评价此次服务</text>
+    <view class="stars">
+      <image class="star-icon {{rating >= 1 ? 'active' : ''}}" src="/images/icons/{{rating >= 1 ? 'star' : 'star-empty'}}.png" mode="aspectFit" bindtap="setRating" data-r="1"/>
+      <image class="star-icon {{rating >= 2 ? 'active' : ''}}" src="/images/icons/{{rating >= 2 ? 'star' : 'star-empty'}}.png" mode="aspectFit" bindtap="setRating" data-r="2"/>
+      <image class="star-icon {{rating >= 3 ? 'active' : ''}}" src="/images/icons/{{rating >= 3 ? 'star' : 'star-empty'}}.png" mode="aspectFit" bindtap="setRating" data-r="3"/>
+      <image class="star-icon {{rating >= 4 ? 'active' : ''}}" src="/images/icons/{{rating >= 4 ? 'star' : 'star-empty'}}.png" mode="aspectFit" bindtap="setRating" data-r="4"/>
+      <image class="star-icon {{rating >= 5 ? 'active' : ''}}" src="/images/icons/{{rating >= 5 ? 'star' : 'star-empty'}}.png" mode="aspectFit" bindtap="setRating" data-r="5"/>
+    </view>
+    <text class="rating-text">{{ratingTexts[rating-1] || '点击星星评分'}}</text>
+    <textarea class="form-textarea" placeholder="写点评价吧～（选填）" value="{{content}}" bindinput="onContentInput" style="margin-top:24rpx"/>
+  </view>
+  <view class="btn-primary" style="margin-top:40rpx" bindtap="submit">提交评价</view>
+</view>

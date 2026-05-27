@@ -1,0 +1,49 @@
+<view class="container" wx:if="{{product}}">
+  <view class="card">
+    <view class="flex" style="gap:20rpx">
+      <image class="prod-img" src="{{product.images[0] || '/images/icons/pickup.png'}}" mode="aspectFill"/>
+      <view class="flex-1">
+        <text class="prod-name">{{product.name}}</text>
+        <text class="prod-shop">{{product.shop_name}}</text>
+        <view class="flex flex-between flex-center" style="margin-top:8rpx">
+          <text class="price"><text class="price-unit">¥</text>{{product.price}}</text>
+          <text class="prod-qty">x{{quantity}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="form-group">
+      <text class="form-label">收货地址</text>
+      <input class="form-input" placeholder="请输入收货地址" value="{{address}}" bindinput="onAddressInput"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">联系电话</text>
+      <input class="form-input" placeholder="请输入手机号" type="number" value="{{phone}}" bindinput="onPhoneInput"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">备注</text>
+      <input class="form-input" placeholder="选填" value="{{remark}}" bindinput="onRemarkInput"/>
+    </view>
+  </view>
+
+  <view class="card summary">
+    <view class="summary-row">
+      <text>商品金额</text>
+      <text class="price">¥{{totalAmount}}</text>
+    </view>
+    <view class="summary-row">
+      <text>账户余额</text>
+      <text>¥{{balance}}</text>
+    </view>
+    <view class="summary-row total">
+      <text>实付金额</text>
+      <text class="price" style="font-size:36rpx">¥{{totalAmount}}</text>
+    </view>
+  </view>
+
+  <view class="btn-primary {{submitting ? 'disabled' : ''}}" bindtap="submitOrder" style="margin-top:40rpx">
+    {{submitting ? '提交中...' : '确认支付'}}
+  </view>
+</view>

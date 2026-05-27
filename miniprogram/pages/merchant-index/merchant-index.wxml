@@ -1,0 +1,39 @@
+<view class="container">
+  <view class="shop-header" wx:if="{{merchant}}">
+    <text class="shop-name">{{merchant.shop_name}}</text>
+    <text class="shop-rating"><image class="icon-xs" src="/images/icons/star.png" mode="aspectFit" style="vertical-align:middle"/> {{merchant.rating}} · {{merchant.category}}</text>
+  </view>
+
+  <view class="menu-grid">
+    <view class="menu-card card" bindtap="goProducts">
+      <image class="icon-md" src="/images/icons/pickup.png" mode="aspectFit"/>
+      <text class="menu-name">商品管理</text>
+      <text class="menu-desc">管理店铺商品</text>
+    </view>
+    <view class="menu-card card" bindtap="goOrders">
+      <image class="icon-md" src="/images/icons/list.png" mode="aspectFit"/>
+      <text class="menu-name">订单管理</text>
+      <text class="menu-desc">处理客户订单</text>
+    </view>
+    <view class="menu-card card" bindtap="goShop">
+      <image class="icon-md" src="/images/icons/market.png" mode="aspectFit"/>
+      <text class="menu-name">店铺设置</text>
+      <text class="menu-desc">编辑店铺信息</text>
+    </view>
+    <view class="menu-card card" bindtap="goStats">
+      <image class="icon-md" src="/images/icons/chart.png" mode="aspectFit"/>
+      <text class="menu-name">数据统计</text>
+      <text class="menu-desc">查看经营数据</text>
+    </view>
+    <view class="menu-card card" bindtap="goMessages">
+      <image class="icon-md" src="/images/icons/chat.png" mode="aspectFit"/>
+      <text class="menu-name">消息中心</text>
+      <text class="menu-desc">查看消息通知</text>
+    </view>
+    <view class="menu-card card" bindtap="goReviews">
+      <image class="icon-md" src="/images/icons/star.png" mode="aspectFit"/>
+      <text class="menu-name">评价管理</text>
+      <text class="menu-desc">查看客户评价</text>
+    </view>
+  </view>
+</view>

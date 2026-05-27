@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="balance-card">
+    <text class="balance-label">账户余额（元）</text>
+    <text class="balance-amount">{{balance}}</text>
+    <view class="recharge-btn" bindtap="recharge">充值</view>
+  </view>
+
+  <view class="filter-bar">
+    <view class="filter-item {{filterType === '' ? 'active' : ''}}" bindtap="changeFilter" data-t="">全部</view>
+    <view class="filter-item {{filterType === 'income' ? 'active' : ''}}" bindtap="changeFilter" data-t="income">收入</view>
+    <view class="filter-item {{filterType === 'expense' ? 'active' : ''}}" bindtap="changeFilter" data-t="expense">支出</view>
+    <view class="filter-item {{filterType === 'recharge' ? 'active' : ''}}" bindtap="changeFilter" data-t="recharge">充值</view>
+  </view>
+
+  <view class="record-list">
+    <view class="record-item card" wx:for="{{records}}" wx:key="id">
+      <view class="flex flex-between flex-center">
+        <view>
+          <text class="record-desc">{{item.description}}</text>
+          <text class="record-time">{{item.created_at}}</text>
+        </view>
+        <text class="record-amount {{item.type === 'income' || item.type === 'recharge' ? 'amount-green' : 'amount-red'}}">
+          {{item.type === 'income' || item.type === 'recharge' ? '+' : '-'}}{{item.amount}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{records.length === 0}}">
+    <image class="icon-lg" src="/images/icons/wallet.png" mode="aspectFit"/>
+    <text>暂无记录</text>
+  </view>
+</view>

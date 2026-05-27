@@ -1,0 +1,114 @@
+<view class="index-page">
+  <!-- 顶部搜索区 -->
+  <view class="top-bar">
+    <view class="location flex flex-center">
+      <image class="icon-sm" src="/images/icons/location.png" mode="aspectFit"/>
+      <text class="loc-text">{{userInfo.campus || '选择校区'}}</text>
+    </view>
+    <view class="search-box" bindtap="goSearch">
+      <image class="icon-xs" src="/images/icons/search.png" mode="aspectFit"/>
+      <text class="search-placeholder">搜索跑腿任务、二手商品</text>
+    </view>
+    <view class="msg-icon" bindtap="goMessages">
+      <image class="icon-sm" src="/images/icons/bell.png" mode="aspectFit"/>
+      <view wx:if="{{unreadCount > 0}}" class="badge">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
+    </view>
+  </view>
+
+  <!-- 轮播Banner -->
+  <swiper class="banner" indicator-dots autoplay circular interval="4000" duration="500">
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <image src="{{item.image_url}}" mode="aspectFill" class="banner-img" bindtap="onBannerTap" data-link="{{item.link}}"/>
+    </swiper-item>
+  </swiper>
+
+  <!-- 公告 -->
+  <view class="notice-bar" wx:if="{{announcements.length > 0}}">
+    <image class="icon-xs" src="/images/icons/announce.png" mode="aspectFit"/>
+    <swiper class="notice-swiper" vertical autoplay circular interval="3000">
+      <swiper-item wx:for="{{announcements}}" wx:key="id">
+        <text class="notice-text">{{item.title}}</text>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 服务分类 -->
+  <view class="service-grid">
+    <view class="service-item" bindtap="goExpressPickup">
+      <view class="service-icon icon-pickup"><image class="icon-md" src="/images/icons/pickup.png" mode="aspectFit"/></view>
+      <text class="service-name">取快递</text>
+    </view>
+    <view class="service-item" bindtap="goExpressSend">
+      <view class="service-icon icon-send"><image class="icon-md" src="/images/icons/send.png" mode="aspectFit"/></view>
+      <text class="service-name">寄快递</text>
+    </view>
+    <view class="service-item" bindtap="goHelpBuy">
+      <view class="service-icon icon-buy"><image class="icon-md" src="/images/icons/buy.png" mode="aspectFit"/></view>
+      <text class="service-name">帮买服务</text>
+    </view>
+    <view class="service-item" bindtap="goMarket">
+      <view class="service-icon icon-market"><image class="icon-md" src="/images/icons/market.png" mode="aspectFit"/></view>
+      <text class="service-name">二手市场</text>
+    </view>
+    <view class="service-item" bindtap="goShops">
+      <view class="service-icon icon-shop"><image class="icon-md" src="/images/icons/market.png" mode="aspectFit"/></view>
+      <text class="service-name">校园商家</text>
+    </view>
+  </view>
+
+  <!-- 热门任务 -->
+  <view class="section" wx:if="{{hotTasks.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">热门任务</text>
+      <text class="section-more" bindtap="goHall">查看全部 ▸</text>
+    </view>
+    <view class="task-list">
+      <view class="task-card card" wx:for="{{hotTasks}}" wx:key="id" bindtap="goTaskDetail" data-id="{{item.id}}">
+        <view class="task-top flex flex-between flex-center">
+          <view class="flex flex-center">
+            <view class="tag {{item.type === 'express_pickup' ? 'tag-green' : item.type === 'express_send' ? 'tag-blue' : 'tag-orange'}}">
+              {{item.type === 'express_pickup' ? '取快递' : item.type === 'express_send' ? '寄快递' : '帮买'}}
+            </view>
+            <text class="task-time">{{item.timeAgo}}</text>
+          </view>
+          <view class="reward">
+            <text class="price-unit">¥</text>
+            <text class="price">{{item.reward}}</text>
+          </view>
+        </view>
+        <view class="task-info">
+          <text class="task-desc" wx:if="{{item.type === 'express_pickup'}}">{{item.express_point}} → {{item.delivery_address}}</text>
+          <text class="task-desc" wx:elif="{{item.type === 'express_send'}}">{{item.sender_address}} → {{item.receiver_address}}</text>
+          <text class="task-desc" wx:else>{{item.goods_desc}}</text>
+        </view>
+        <view class="task-bottom flex flex-between flex-center">
+          <view class="user-info flex flex-center">
+            <image class="avatar-sm" src="{{item.avatar}}" mode="aspectFill"/>
+            <text class="user-name">{{item.nickname}}</text>
+          </view>
+          <text class="task-addr">{{item.campus}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 推荐二手 -->
+  <view class="section" wx:if="{{recommendGoods.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">二手好物</text>
+      <text class="section-more" bindtap="goMarket">更多 ▸</text>
+    </view>
+    <view class="goods-grid">
+      <view class="goods-card" wx:for="{{recommendGoods}}" wx:key="id" bindtap="goGoodsDetail" data-id="{{item.id}}">
+        <image class="goods-img" src="{{item.images[0] || defaultImg}}" mode="aspectFill"/>
+        <view class="goods-info">
+          <text class="goods-title">{{item.title}}</text>
+          <view class="goods-bottom flex flex-between flex-center">
+            <text class="price"><text class="price-unit">¥</text>{{item.price}}</text>
+            <text class="goods-views">{{item.view_count}}次浏览</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

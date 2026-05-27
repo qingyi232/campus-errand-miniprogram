@@ -1,0 +1,121 @@
+<view class="container" wx:if="{{task}}">
+  <!-- 状态头 -->
+  <view class="status-header" style="background: {{statusColor}}">
+    <image class="icon-md" src="/images/icons/{{task.type === 'express_pickup' ? 'pickup' : task.type === 'express_send' ? 'send' : 'buy'}}.png" mode="aspectFit"/>
+    <text class="status-text">{{statusName}}</text>
+    <text class="status-type">{{typeName}}</text>
+  </view>
+
+  <!-- 赏金 -->
+  <view class="reward-card card">
+    <text class="reward-label">赏金</text>
+    <view class="reward-amount">
+      <text class="price-unit">¥</text>
+      <text class="price reward-num">{{task.reward}}</text>
+    </view>
+  </view>
+
+  <!-- 任务信息 -->
+  <view class="info-card card">
+    <text class="card-title">任务信息</text>
+    <view class="info-list">
+      <view class="info-row" wx:if="{{task.express_point}}">
+        <text class="info-label">快递点</text>
+        <text class="info-val">{{task.express_point}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.pickup_code}}">
+        <text class="info-label">取件码</text>
+        <text class="info-val code-text">{{task.pickup_code}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.sender_address}}">
+        <text class="info-label">寄件地址</text>
+        <text class="info-val">{{task.sender_address}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.receiver_name}}">
+        <text class="info-label">收件人</text>
+        <text class="info-val">{{task.receiver_name}} {{task.receiver_phone}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.receiver_address}}">
+        <text class="info-label">收件地址</text>
+        <text class="info-val">{{task.receiver_address}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.goods_desc}}">
+        <text class="info-label">商品描述</text>
+        <text class="info-val">{{task.goods_desc}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.buy_location}}">
+        <text class="info-label">购买地点</text>
+        <text class="info-val">{{task.buy_location}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.budget}}">
+        <text class="info-label">预算</text>
+        <text class="info-val">¥{{task.budget}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.delivery_address}}">
+        <text class="info-label">送达地址</text>
+        <text class="info-val">{{task.delivery_address}}</text>
+      </view>
+      <view class="info-row" wx:if="{{task.remark}}">
+        <text class="info-label">备注</text>
+        <text class="info-val">{{task.remark}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">发布时间</text>
+        <text class="info-val">{{task.created_at}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 发布者 -->
+  <view class="person-card card">
+    <text class="card-title">发布者</text>
+    <view class="person-row flex flex-center">
+      <image class="avatar" src="{{task.avatar}}" mode="aspectFill"/>
+      <view class="person-info flex-1">
+        <text class="person-name">{{task.nickname}}</text>
+        <text class="person-sub">{{task.campus}}</text>
+      </view>
+      <view class="call-btn" wx:if="{{task.user_phone}}" bindtap="callUser">
+        <text>联系</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 跑腿员 -->
+  <view class="person-card card" wx:if="{{task.runner_id}}">
+    <text class="card-title">跑腿员</text>
+    <view class="person-row flex flex-center">
+      <image class="avatar" src="{{task.runner_avatar}}" mode="aspectFill"/>
+      <view class="person-info flex-1">
+        <text class="person-name">{{task.runner_name}}</text>
+      </view>
+      <view class="call-btn" wx:if="{{task.runner_phone}}" bindtap="callRunner">
+        <text>联系</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评价 -->
+  <view class="review-card card" wx:if="{{task.reviews.length > 0}}">
+    <text class="card-title">评价</text>
+    <view class="review-item" wx:for="{{task.reviews}}" wx:key="id">
+      <view class="flex flex-center" style="gap:12rpx;margin-bottom:8rpx;">
+        <image class="avatar-sm" src="{{item.avatar}}" mode="aspectFill"/>
+        <text class="review-name">{{item.nickname}}</text>
+        <view class="review-stars-wrap">
+          <image wx:for="{{5}}" wx:key="*this" class="star-icon-sm" src="/images/icons/{{index < item.rating ? 'star' : 'star-empty'}}.png" mode="aspectFit"/>
+        </view>
+      </view>
+      <text class="review-content">{{item.content}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar safe-bottom" wx:if="{{showActions}}">
+    <view class="btn-primary" wx:if="{{canAccept}}" bindtap="acceptTask">立即接单</view>
+    <view class="btn-primary" wx:if="{{canDeliver}}" bindtap="deliverTask">开始配送</view>
+    <view class="btn-primary" wx:if="{{canComplete}}" bindtap="completeTask">确认收货</view>
+    <view class="btn-outline" wx:if="{{canReview}}" bindtap="goReview">去评价</view>
+    <view class="btn-danger" wx:if="{{canCancel}}" bindtap="cancelTask">取消任务</view>
+  </view>
+</view>

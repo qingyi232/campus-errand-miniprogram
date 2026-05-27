@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="top-bar flex flex-between flex-center">
+    <text class="page-title" style="font-size:34rpx;font-weight:700">我的商品</text>
+    <view class="add-btn" bindtap="goPublish">+ 发布商品</view>
+  </view>
+
+  <view class="goods-item card" wx:for="{{goods}}" wx:key="id">
+    <view class="flex" style="gap:20rpx">
+      <image class="goods-cover" src="{{item.images[0] || defaultImg}}" mode="aspectFill"/>
+      <view class="flex-1">
+        <text class="goods-title">{{item.title}}</text>
+        <text class="goods-price price"><text class="price-unit">¥</text>{{item.price}}</text>
+        <view class="goods-meta">
+          <text>{{item.view_count}}次浏览</text>
+          <text class="tag {{item.status === 'on_sale' ? 'tag-green' : item.status === 'sold' ? 'tag-gray' : 'tag-orange'}}" style="margin-left:12rpx">
+            {{item.status === 'on_sale' ? '在售' : item.status === 'sold' ? '已售' : item.status === 'off_shelf' ? '已下架' : '审核中'}}
+          </text>
+        </view>
+      </view>
+    </view>
+    <view class="goods-actions flex" style="gap:16rpx;margin-top:16rpx;justify-content:flex-end">
+      <text class="action-btn" wx:if="{{item.status === 'on_sale'}}" catchtap="toggleStatus" data-id="{{item.id}}" data-status="off_shelf">下架</text>
+      <text class="action-btn" wx:if="{{item.status === 'off_shelf'}}" catchtap="toggleStatus" data-id="{{item.id}}" data-status="on_sale">上架</text>
+      <text class="action-btn" wx:if="{{item.status === 'on_sale'}}" catchtap="markSold" data-id="{{item.id}}">标记已售</text>
+      <text class="action-btn edit" catchtap="editGoods" data-id="{{item.id}}">编辑</text>
+      <text class="action-btn del" catchtap="deleteGoods" data-id="{{item.id}}">删除</text>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{goods.length === 0}}">
+    <image class="icon-lg" src="/images/icons/market.png" mode="aspectFit"/>
+    <text>还没有发布商品</text>
+    <view class="btn-primary" style="margin-top:24rpx;padding:16rpx 48rpx;display:inline-block" bindtap="goPublish">去发布</view>
+  </view>
+</view>

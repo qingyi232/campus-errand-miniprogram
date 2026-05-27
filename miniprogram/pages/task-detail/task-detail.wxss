@@ -1,0 +1,56 @@
+.status-header {
+  padding: 40rpx 32rpx;
+  border-radius: 0 0 32rpx 32rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.status-icon { font-size: 56rpx; display: block; margin-bottom: 12rpx; }
+.status-text { font-size: 36rpx; font-weight: 700; color: #fff; display: block; }
+.status-type { font-size: 24rpx; color: rgba(255,255,255,0.8); display: block; margin-top: 8rpx; }
+
+.reward-card { text-align: center; }
+.reward-label { font-size: 26rpx; color: #8F92A1; display: block; }
+.reward-amount { margin-top: 8rpx; }
+.reward-num { font-size: 56rpx; }
+
+.card-title { font-size: 30rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 20rpx; }
+
+.info-list {}
+.info-row { display: flex; padding: 12rpx 0; border-bottom: 1rpx solid #F8F9FB; }
+.info-row:last-child { border-bottom: none; }
+.info-label { width: 140rpx; font-size: 26rpx; color: #8F92A1; flex-shrink: 0; }
+.info-val { flex: 1; font-size: 26rpx; color: #172B4D; }
+.code-text { font-weight: 700; color: #FF5630; font-size: 30rpx; }
+
+.person-row { gap: 16rpx; }
+.person-name { font-size: 28rpx; font-weight: 600; color: #172B4D; display: block; }
+.person-sub { font-size: 24rpx; color: #8F92A1; display: block; margin-top: 4rpx; }
+.call-btn {
+  background: #E3FCEF;
+  color: #36B37E;
+  padding: 12rpx 24rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.review-item { margin-bottom: 20rpx; padding-bottom: 20rpx; border-bottom: 1rpx solid #F8F9FB; }
+.review-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.review-name { font-size: 24rpx; color: #505F79; flex: 1; }
+.review-stars { font-size: 22rpx; }
+.review-content { font-size: 26rpx; color: #505F79; margin-left: 68rpx; }
+
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 20rpx 32rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0,0,0,0.06);
+  display: flex;
+  gap: 16rpx;
+}
+.action-bar .btn-primary,
+.action-bar .btn-outline,
+.action-bar .btn-danger { flex: 1; }

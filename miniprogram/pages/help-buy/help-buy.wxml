@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="page-header">
+    <text class="page-title">发布帮买任务</text>
+    <text class="page-subtitle">让同学帮你跑腿购买</text>
+  </view>
+
+  <view class="form-card card">
+    <view class="form-group">
+      <text class="form-label">商品描述 *</text>
+      <textarea class="form-textarea" placeholder="如：一杯奶茶（珍珠少糖）" value="{{form.goods_desc}}" bindinput="onInput" data-field="goods_desc"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">购买地点 *</text>
+      <input class="form-input" placeholder="如：学校西门蜜雪冰城" value="{{form.buy_location}}" bindinput="onInput" data-field="buy_location"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">预算金额（元）*</text>
+      <input class="form-input" type="digit" placeholder="商品预估价格" value="{{form.budget}}" bindinput="onInput" data-field="budget"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">配送地址 *</text>
+      <view class="flex flex-center" style="gap:12rpx">
+        <input class="form-input flex-1" placeholder="如：梅园1号楼302室" value="{{form.delivery_address}}" bindinput="onInput" data-field="delivery_address"/>
+        <view class="map-btn" bindtap="chooseLocation"><image class="icon-xs" src="/images/icons/location.png" mode="aspectFit" style="vertical-align:middle"/> 定位</view>
+      </view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">赏金（元）*</text>
+      <input class="form-input" type="digit" placeholder="最低2元" value="{{form.reward}}" bindinput="onInput" data-field="reward"/>
+    </view>
+    <view class="form-group">
+      <text class="form-label">备注</text>
+      <textarea class="form-textarea" placeholder="其他注意事项" value="{{form.remark}}" bindinput="onInput" data-field="remark"/>
+    </view>
+  </view>
+
+  <view class="btn-primary submit-btn" bindtap="submit">发布任务</view>
+</view>

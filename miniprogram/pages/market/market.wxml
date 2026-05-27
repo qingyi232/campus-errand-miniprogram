@@ -1,0 +1,55 @@
+<view class="market-page">
+  <!-- 搜索 -->
+  <view class="search-wrap">
+    <view class="search-bar">
+      <image class="icon-xs" src="/images/icons/search.png" mode="aspectFit"/>
+      <input class="search-input" placeholder="搜索二手好物" bindinput="onSearch" confirm-type="search" bindconfirm="doSearch" value="{{keyword}}"/>
+    </view>
+    <view class="publish-btn" bindtap="goPublish">
+      <text>+ 发布</text>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="cate-scroll" scroll-x>
+    <view class="cate-list">
+      <view class="cate-item {{currentCategory === '' ? 'active' : ''}}" bindtap="filterCategory" data-cate="">全部</view>
+      <view class="cate-item {{currentCategory === item ? 'active' : ''}}" wx:for="{{categories}}" wx:key="*this" bindtap="filterCategory" data-cate="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 排序 -->
+  <view class="sort-bar">
+    <view class="sort-item {{sort === '' ? 'active' : ''}}" bindtap="changeSort" data-sort="">最新</view>
+    <view class="sort-item {{sort === 'price_asc' ? 'active' : ''}}" bindtap="changeSort" data-sort="price_asc">价格↑</view>
+    <view class="sort-item {{sort === 'price_desc' ? 'active' : ''}}" bindtap="changeSort" data-sort="price_desc">价格↓</view>
+  </view>
+
+  <!-- 商品瀑布流 -->
+  <view class="goods-grid" wx:if="{{goods.length > 0}}">
+    <view class="goods-card" wx:for="{{goods}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="goods-cover" src="{{item.images[0] || defaultImg}}" mode="aspectFill"/>
+      <view class="goods-body">
+        <text class="goods-title">{{item.title}}</text>
+        <view class="goods-meta">
+          <text class="price"><text class="price-unit">¥</text>{{item.price}}</text>
+          <text class="original-price" wx:if="{{item.original_price}}">¥{{item.original_price}}</text>
+        </view>
+        <view class="goods-seller flex flex-center">
+          <image class="avatar-xs" src="{{item.avatar}}" mode="aspectFill"/>
+          <text class="seller-name">{{item.nickname}}</text>
+          <text class="view-count">{{item.view_count}}浏览</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && goods.length === 0}}">
+    <image class="icon-lg" src="/images/icons/market.png" mode="aspectFit"/>
+    <text>暂无商品</text>
+  </view>
+
+  <view class="loading-wrap" wx:if="{{loading}}"><text>加载中...</text></view>
+</view>

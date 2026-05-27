@@ -1,0 +1,10 @@
+.stats-bar { text-align: center; margin-bottom: 20rpx; }
+.avg-score { font-size: 72rpx; font-weight: 800; color: #FF9500; }
+.avg-stars { font-size: 28rpx; display: block; }
+.avg-count { font-size: 24rpx; color: #8F92A1; display: block; margin-top: 4rpx; }
+
+.reviewer-name { font-size: 28rpx; font-weight: 600; color: #172B4D; display: block; }
+.review-time { font-size: 22rpx; color: #B0B3BE; display: block; margin-top: 4rpx; }
+.review-stars { font-size: 24rpx; }
+.review-content { font-size: 26rpx; color: #505F79; display: block; line-height: 1.6; }
+.empty-content { color: #B0B3BE; font-style: italic; }

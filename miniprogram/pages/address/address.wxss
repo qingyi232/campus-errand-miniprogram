@@ -1,0 +1,9 @@
+.addr-top { display: flex; align-items: center; gap: 12rpx; margin-bottom: 8rpx; }
+.addr-name { font-size: 30rpx; font-weight: 700; color: #172B4D; }
+.addr-phone { font-size: 26rpx; color: #505F79; }
+.addr-detail { font-size: 26rpx; color: #8F92A1; display: block; }
+.addr-actions { margin-top: 16rpx; padding-top: 16rpx; border-top: 1rpx solid #F4F5F7; }
+.set-default { font-size: 24rpx; color: #36B37E; }
+.action-link { font-size: 24rpx; color: #505F79; }
+.del-link { color: #FF5630; }
+.add-btn { margin-top: 40rpx; }

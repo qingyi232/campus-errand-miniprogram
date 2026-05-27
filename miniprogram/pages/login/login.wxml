@@ -1,0 +1,41 @@
+<view class="login-page">
+  <view class="login-header">
+    <view class="logo-wrap">
+      <image class="logo-img" src="/images/icons/logo.png" mode="aspectFit" style="width:120rpx;height:120rpx"/>
+    </view>
+    <text class="app-name">校园跑腿</text>
+    <text class="app-desc">让校园生活更便捷</text>
+  </view>
+
+  <view class="login-body">
+    <view class="login-card">
+      <!-- 微信快捷登录 -->
+      <button class="btn-wx" bindtap="wxLogin">
+        <image class="icon-sm" src="/images/icons/wechat.png" mode="aspectFit" style="margin-right:8rpx;vertical-align:middle"/>
+        <text>微信快捷登录</text>
+      </button>
+
+      <view class="divider-text">
+        <view class="divider-line"></view>
+        <text class="divider-label">或账号密码登录</text>
+        <view class="divider-line"></view>
+      </view>
+
+      <!-- 账号密码登录 -->
+      <view class="form-group">
+        <input class="form-input" placeholder="请输入手机号/账号" bindinput="onUsernameInput" value="{{username}}"/>
+      </view>
+      <view class="form-group">
+        <input class="form-input" type="password" placeholder="请输入密码" bindinput="onPasswordInput" value="{{password}}"/>
+      </view>
+      <view class="btn-primary" bindtap="passwordLogin">登 录</view>
+
+      <view class="test-accounts">
+        <text class="test-title">测试账号：</text>
+        <text class="test-item" bindtap="fillAdmin">管理员: admin / admin123</text>
+        <text class="test-item" bindtap="fillUser">用户: 13800001111 / 123456</text>
+        <text class="test-item" bindtap="fillMerchant">商家: 13800004444 / 123456</text>
+      </view>
+    </view>
+  </view>
+</view>

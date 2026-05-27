@@ -1,0 +1,108 @@
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8F8F0 0%, #F8F9FB 40%);
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 160rpx;
+  padding-bottom: 60rpx;
+}
+
+.logo-wrap {
+  width: 140rpx;
+  height: 140rpx;
+  background: #fff;
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 32rpx rgba(54, 179, 126, 0.2);
+  margin-bottom: 32rpx;
+}
+
+.logo-emoji { font-size: 68rpx; }
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: #172B4D;
+  letter-spacing: 4rpx;
+}
+
+.app-desc {
+  font-size: 26rpx;
+  color: #8F92A1;
+  margin-top: 12rpx;
+}
+
+.login-body { padding: 0 40rpx; }
+
+.login-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0,0,0,0.06);
+}
+
+.btn-wx {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  background: #36B37E;
+  color: #fff;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  letter-spacing: 2rpx;
+}
+
+.btn-wx::after { border: none; }
+.wx-icon { margin-right: 12rpx; font-size: 36rpx; }
+
+.divider-text {
+  display: flex;
+  align-items: center;
+  margin: 48rpx 0 36rpx;
+}
+
+.divider-line { flex: 1; height: 1rpx; background: #E8E8E8; }
+
+.divider-label {
+  padding: 0 24rpx;
+  font-size: 24rpx;
+  color: #B0B3BE;
+}
+
+.login-card .form-input {
+  margin-bottom: 24rpx;
+}
+
+.login-card .btn-primary {
+  border-radius: 48rpx;
+  margin-top: 12rpx;
+}
+
+.test-accounts {
+  margin-top: 40rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid #F0F1F3;
+}
+
+.test-title {
+  font-size: 24rpx;
+  color: #8F92A1;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.test-item {
+  display: block;
+  font-size: 22rpx;
+  color: #36B37E;
+  padding: 8rpx 0;
+}

@@ -1,0 +1,13 @@
+.prod-img { width: 140rpx; height: 140rpx; border-radius: 12rpx; flex-shrink: 0; }
+.prod-name { font-size: 28rpx; font-weight: 700; color: #172B4D; display: block; margin-bottom: 4rpx; }
+.prod-shop { font-size: 24rpx; color: #8F92A1; display: block; }
+.prod-qty { font-size: 26rpx; color: #8F92A1; }
+
+.form-group { margin-bottom: 20rpx; }
+.form-label { font-size: 26rpx; color: #505F79; display: block; margin-bottom: 8rpx; font-weight: 600; }
+.form-input { background: #F8F9FB; border-radius: 12rpx; padding: 20rpx; font-size: 28rpx; }
+
+.summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12rpx 0; font-size: 26rpx; color: #505F79; }
+.summary-row.total { border-top: 1rpx solid #F0F1F5; padding-top: 20rpx; margin-top: 8rpx; }
+
+.disabled { opacity: 0.5; pointer-events: none; }
